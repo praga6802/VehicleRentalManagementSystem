@@ -4,7 +4,8 @@ public interface RentalRules {
 
     int MAX_NO_OF_DAYS=10;
     String rentalname="JONI rentals";
-
+    String vehicleBrand="", vehicleModel="";
     double calculateRentalCost();
-    void checkAvailability();
+    boolean checkAvailability(String bikeBrand, String bikeModel);
+    void printReceipt();
 }
