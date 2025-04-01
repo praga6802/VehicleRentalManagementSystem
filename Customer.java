@@ -15,6 +15,9 @@ public class Customer {
         this.rentVehicleType=rentVehicleType;
         this.noOfDays=noOfDays;
     }
+    public Customer(){
+
+    }
 
     //setters()
     public void setCustomer(String customer_name){
@@ -72,11 +75,11 @@ public class Customer {
     public void enterCustomerDetails(){
         System.out.println("Customer name: "+customer_name);
         System.out.println("Id proof: "+idproof);
-        System.out.println("contactNo: "+contactNo);
-        System.out.println("age: "+age);
-        System.out.println("noOfDays: "+noOfDays);
-        System.out.println("licenseavl: "+licenseavl);
-        System.out.println("licenseavlType: "+licenseavlType);
-        System.out.println("rentVehicleType: "+rentVehicleType);
+        System.out.println("ContactNo: "+contactNo);
+        System.out.println("Age: "+age);
+        System.out.println("No Of Days: "+noOfDays);
+        System.out.println("License Available: "+licenseavl);
+        System.out.println("Type of License Available: "+licenseavlType);
+        System.out.println("Renting Vehicle: "+rentVehicleType);
     }
 }
