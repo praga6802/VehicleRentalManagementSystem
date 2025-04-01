@@ -1,5 +1,4 @@
 package rental;
-import java.util.Arrays;
 import java.util.Scanner;
 public class VehicleRentMain {
     public static void main(String[] args) {
