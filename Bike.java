@@ -1,9 +1,5 @@
 package rental;
-import org.w3c.dom.ls.LSOutput;
-
 import java.util.Scanner;
-
-
 public class Bike extends Vehicle implements RentalRules {
 
     Scanner sc = new Scanner(System.in);
