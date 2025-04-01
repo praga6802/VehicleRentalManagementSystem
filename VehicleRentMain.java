@@ -1,126 +1,308 @@
 package rental;
+import java.util.Arrays;
 import java.util.Scanner;
 public class VehicleRentMain {
-
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
-        System.out.println("Welcome to JONI Vehicle Rentals..");
-        System.out.println("Please Enter Customer details...");
-        System.out.println("Enter Customer Name: ");
-        String customername = sc.nextLine();
-        System.out.println("Do you have License(Yes/No)?");
-        String licenseavl = sc.next();
-        String licenseavltype = "";
-        if (licenseavl.equals("Yes") || licenseavl.equals("yes")) {
-            System.out.println("Enter the license of Vehicle Type");
-            licenseavltype = sc.next();
-        } else {
-            System.out.println("Without Driving License.. We would not provide vehicles for rentals");
-            return;
-        }
-        System.out.println("ID Proof acceptable for renting \n Press 1. Aadhar, Press 2. Voter ID");
-        System.out.println("Submit your ID Proof..");
-        String idproof = sc.next();
-        switch (idproof) {
-            case "1":
-                System.out.println("You have selected \"Aadhar\"");
-                idproof="Aadhar";
-                break;
-            case "2":
-                System.out.println("You have selected \"Voter ID\" ");
-                idproof="Voter ID";
-                break;
-            default:
-                System.out.println("Without ID Proof we are not provide for rentals...");
-                return;
-        }
-        System.out.println("Enter Contact Number: ");
-        String contactno = sc.next();
-        if (contactno.length() != 10) {
-            System.out.println("Please provide 10 digit mobile number..");
-            return;
-        }
-        System.out.println("Enter Age: ");
-        int age = sc.nextInt();
-        sc.nextLine();
-        if (age < 18) {
-            System.out.println("Your are below age 18.. We are not provide for rentals..");
-            return;
-        }
-        System.out.println("Enter the No of Days:");
-        int noOfDays = sc.nextInt();
-        sc.nextLine();
-        if (noOfDays > 10) {
-            System.out.println("We are not provide more than 10 days...");
-            return;
-        }
-
         Vehicle vehicle;
-        String rentVehicleType = "";
-        //case for selecting normal or ev vehicles
+        Bike Bike;
+        System.out.println("Welcome to JONI Vehicle Rentals..");
+        System.out.println("Press 1 --> Check Vehicle Available, Press 2 --> Rent Vehicle, Press 3 --> Exit");
+        String doOperation = sc.next();
+        sc.nextLine();
+        switch (doOperation) {
 
+            //to check vehicles
+            case "1":
+                System.out.println("Enter the Vehicle Type: Press 1 --> Bike, Press 2 --> Car, Press 3 --> Truck");
+                String vehicleType = sc.next();
+                sc.nextLine();
+                switch (vehicleType) {
+                    //check vehicles available
+                    case "1": //bike
+                        vehicleType = "Bike";
+                        Bike bike = new Bike();
+                        System.out.println("Available "+vehicleType+" Brands");
+                        String[] bikeBrandsList = bike.getBikeBrand1(); //15 brands
+                        for (int i = 0; i < bikeBrandsList.length; i++) {
+                            System.out.print(bikeBrandsList[i]);
+                            if (i < bikeBrandsList.length - 1) {
+                                System.out.print(", ");
+                            }
+                        }
+                        System.out.println();
+                        System.out.println("Enter the Brand Name:");
+                        String brandAvl = sc.nextLine();
 
-        // customer has only bike license
-        if (licenseavltype.equals("Bike") || licenseavltype.equals("bike")) {
-            System.out.println("You are eligible only for Bike Rentals..");
-            rentVehicleType="Bike";
-            vehicle = new Bike(rentVehicleType);
-            vehicle.rentVehicleType();
-        }
-        // customer has car license - bike, car
-        else if (licenseavltype.equals("Car") || licenseavltype.equals("car")) {
-            System.out.println("Available Vehicle Types");
-            System.out.println("Press 1 --> Bike, Press 2 --> Car");
-            System.out.println("Which type of Vehicle would you like to rental?");
-            rentVehicleType = sc.next();
-            switch (rentVehicleType) {
-                case "1":
-                    rentVehicleType="Bike";
-                    vehicle = new Bike(rentVehicleType);
-                    vehicle.rentVehicleType();
-                    break;
-                case "2":
-                    rentVehicleType="Car";
-                    vehicle = new Car(rentVehicleType);
-                    vehicle.rentVehicleType();
-                    break;
-                default:
-                    System.out.println("You did not select any option!");
-            }
-        }
+                        //display all the model of bike brand
+                        String[][] bikeModelList = bike.getBikeModel1();
+                        for (String[] models : bikeModelList) {
+                            for (int j = 0; j < models.length; j++) {
+                                System.out.print(models[j]);
+                                if (j < bikeModelList.length - 1) {
+                                    System.out.print(", ");
+                                }
+                            }
+                        }
+                        System.out.println();
+                        System.out.println("Enter Model Name: ");
+                        String modelAvl = sc.nextLine();
+                        vehicle = new Bike(vehicleType, brandAvl, modelAvl);
+                        boolean isRented = bike.checkAvailability(brandAvl, modelAvl);
+                        if (isRented) {
+                            System.out.println(modelAvl + " is available.");
+                        }
+                        else {
+                            System.out.println(modelAvl + " is currently not available.");
+                        }
+                        break;
+                    case "2": //car
+                        vehicleType = "Car";
+                        Car car = new Car();
+                        System.out.println("Available "+vehicleType+" Brands");
+                        String[] carBrandsList = car.getCarBrand1(); //15 brands
+                        for (int i = 0; i < carBrandsList.length; i++) {
+                            System.out.print(carBrandsList[i]);
+                            if (i < carBrandsList.length - 1) {
+                                System.out.print(", ");
+                            }
+                        }
+                        System.out.println();
+                        System.out.println("Enter the Brand Name:");
+                        String carbrandAvl = sc.nextLine();
 
-        // customer has truck license - bike, car and truck
-        else if (licenseavltype.equals("truck") || licenseavltype.equals("Truck")) {
-            System.out.println("Available Vehicle Types");
-            System.out.println("Press 1 --> Bike, Press 2 --> Car, Press 3 --> Truck");
-            System.out.println("Which type of Vehicle would you like to rental?");
-            rentVehicleType = sc.next();
-            switch (rentVehicleType) {
-                case "1":
-                    rentVehicleType="Bike";
-                    vehicle = new Bike(rentVehicleType);
-                    vehicle.rentVehicleType();
+                        //display all the model of bike brand
+                        String[][] carModelList = car.getCarModel1();
+                        for (String[] models : carModelList) {
+                            for (int j = 0; j < models.length; j++) {
+                                System.out.print(models[j]);
+                                if (j < models.length - 1) {
+                                    System.out.print(", ");
+                                }
+                            }
+                        }
+                        System.out.println();
+                        System.out.println("Enter Model Name: ");
+                        String carmodelAvl = sc.nextLine();
+                        vehicle = new Bike(vehicleType, carbrandAvl, carmodelAvl);
+                        boolean isRentedCar = car.checkAvailability(carbrandAvl, carmodelAvl);
+                        if (isRentedCar) {
+                            System.out.println(carmodelAvl + " is available.");
+                        } else {
+                            System.out.println(carmodelAvl + " is currently not available.");
+                        }
+                        break;
+                case "3": //truck
+                        vehicleType = "Truck";
+                        Truck truck = new Truck();
+                        System.out.println("Available "+vehicleType+" Brands");
+                        String[] truckBrandsList = truck.getTruckBrandList(); //15 brands
+                        for (int i = 0; i < truckBrandsList.length; i++) {
+                            System.out.print(truckBrandsList[i]);
+                            if (i < truckBrandsList.length - 1) {
+                                System.out.print(", ");
+                            }
+                        }
+                        System.out.println();
+                        System.out.println("Enter the Brand Name:");
+                        String truckbrand = sc.nextLine();
+                        //display all the model of bike brand
+                        String[][] truckModelList = truck.getTruckModelList();
+                        for (String[] models : truckModelList) {
+                            for (int j = 1; j < truckModelList.length; j++) {
+                                System.out.print(models[j]);
+                                if (j < truckModelList.length - 1) {
+                                    System.out.print(", ");
+                                }
+                            }
+                        }
+                        System.out.println();
+                        System.out.println("Enter Model Name: ");
+                        String truckmodel = sc.nextLine();
+                        vehicle = new Bike(vehicleType, truckbrand, truckmodel);
+                        boolean isRentedTruck = truck.checkAvailability(truckbrand, truckmodel);
+                        if (isRentedTruck) {
+                            System.out.println(truckmodel + " is available.");
+                        } else {
+                            System.out.println(truckmodel + " is currently not available.");
+                        }
+                        break;
+                }
+                //checking operation finished
+                break;
+
+            //rent vehicles
+            case "2":
+                System.out.println("Please Enter Customer details...");
+                System.out.println("Enter Customer Name: ");
+                String customer_name = sc.nextLine();
+                System.out.println("Enter Age: ");
+                int age = sc.nextInt();
+                sc.nextLine();
+                if (age < 18) {
+                    System.out.println("Your are below age 18.. We are not provide for rentals..");
+                    return;
+                }
+                System.out.println("Do you have License(Yes/No)?");
+                String licenseavl = sc.next();
+                String licenseavltype = "";
+                if (licenseavl.equals("Yes") || licenseavl.equals("yes")) {
+                    System.out.println("Enter the license of Vehicle Type(Car/Bike/Truck)");
+                    licenseavltype = sc.next();
+                } else {
+                    System.out.println("Without Driving License.. We would not provide vehicles for rentals");
+                    return;
+                }
+                System.out.println("ID Proof acceptable for renting \n Press 1. Aadhar, Press 2. Voter ID");
+                System.out.println("Submit your ID Proof..");
+                String idproof = sc.next();
+                switch (idproof) {
+                        case "1":
+                            System.out.println("You have selected \"Aadhar\"");
+                            idproof = "Aadhar";
+                            break;
+                        case "2":
+                            System.out.println("You have selected \"Voter ID\" ");
+                            idproof = "Voter ID";
+                            break;
+                        default:
+                            System.out.println("Without ID Proof we are not provide for rentals...");
+                            return;
+                    }
+                    System.out.println("Enter Contact Number: ");
+                    String contactno = sc.next();
+                    if (contactno.length() != 10) {
+                        System.out.println("Please provide 10 digit mobile number..");
+                        return;
+                    }
+
+                    System.out.println("Enter the No of Days:");
+                    int noOfDays = sc.nextInt();
+                    sc.nextLine();
+                    if (noOfDays > 10) {
+                        System.out.println("We are not provide more than 10 days...");
+                        return;
+                    }
+                    String rentVehicleType = "";
+                    //case for selecting normal or ev vehicles
+                    String receipt = "";
+                    Customer customer = new Customer(idproof, customer_name, contactno, age, noOfDays, licenseavl, licenseavltype, rentVehicleType);
+                    //customer.enterCustomerDetails();
+                    // customer has only bike license
+                    if (licenseavltype.equals("Bike") || licenseavltype.equals("bike")) {
+                        System.out.println("You are eligible only for Bike Rentals..");
+                        rentVehicleType = "Bike";
+                        vehicle = new Bike(rentVehicleType, customer);
+                        vehicle.rentVehicleType();
+                        System.out.println("Rental Cost=" + vehicle.calculateRentalCost());
+                        System.out.println("Do you want to your receipt?(Yes/No)");
+                        receipt = sc.next();
+                        if (receipt.equals("yes") || receipt.equals("Yes")) {
+                            vehicle.printReceipt();
+                        } else {
+                            System.out.println("Thank you for keeping green environment");
+                        }
+                    }
+                    // customer has car license - bike, car
+                    else if (licenseavltype.equals("Car") || licenseavltype.equals("car")) {
+                        System.out.println("Available Vehicle Types");
+                        System.out.println("Press 1 --> Bike, Press 2 --> Car");
+                        System.out.println("Which type of Vehicle would you like to rental?");
+                        rentVehicleType = sc.next();
+                        switch (rentVehicleType) {
+                            case "1":
+                                rentVehicleType = "Bike";
+                                vehicle = new Bike(rentVehicleType, customer);
+                                vehicle.rentVehicleType();
+                                System.out.println("Rental Cost=" + vehicle.calculateRentalCost());
+                                System.out.println("Do you want to your receipt?(Yes/No)");
+                                receipt = sc.next();
+                                if (receipt.equals("yes") || receipt.equals("Yes")) {
+                                    vehicle.printReceipt();
+                                } else {
+                                    System.out.println("Thank you for keeping green environment");
+                                }
+                                break;
+                            case "2":
+                                rentVehicleType = "Car";
+                                vehicle = new Car(rentVehicleType, customer);
+                                vehicle.rentVehicleType();
+                                System.out.println("Rental Cost=" + vehicle.calculateRentalCost());
+                                System.out.println("Do you want to your receipt?(Yes/No)");
+                                receipt = sc.next();
+                                if (receipt.equals("yes") || receipt.equals("Yes")) {
+                                    vehicle.printReceipt();
+                                } else {
+                                    System.out.println("Thank you for keeping green environment");
+                                }
+                                break;
+                            default:
+                                System.out.println("You did not select any option!");
+                        }
+                    }
+
+                    // customer has truck license - bike, car and truck
+                    else if (licenseavltype.equals("truck") || licenseavltype.equals("Truck")) {
+                        System.out.println("Available Vehicle Types");
+                        System.out.println("Press 1 --> Bike, Press 2 --> Car, Press 3 --> Truck");
+                        System.out.println("Which type of Vehicle would you like to rental?");
+                        rentVehicleType = sc.next();
+                        switch (rentVehicleType) {
+                            case "1":
+                                rentVehicleType = "Bike";
+                                vehicle = new Bike(rentVehicleType, customer);
+                                vehicle.rentVehicleType();
+                                System.out.println("Rental Cost=" + vehicle.calculateRentalCost());
+                                System.out.println("Do you want to your receipt?(Yes/No)");
+                                receipt = sc.next();
+                                if (receipt.equals("yes") || receipt.equals("Yes")) {
+                                    vehicle.printReceipt();
+                                } else {
+                                    System.out.println("Thank you for keeping green environment");
+                                }
+                                break;
+                            case "2":
+                                rentVehicleType = "Car";
+                                vehicle = new Car(rentVehicleType, customer);
+                                vehicle.rentVehicleType();
+                                System.out.println("Rental Cost=" + vehicle.calculateRentalCost());
+                                System.out.println("Do you want to your receipt?(Yes/No)");
+                                receipt = sc.next();
+                                if (receipt.equals("yes") || receipt.equals("Yes")) {
+                                    vehicle.printReceipt();
+                                } else {
+                                    System.out.println("Thank you for keeping green environment");
+                                }
+                                break;
+                            case "3":
+                                rentVehicleType = "Truck";
+                                vehicle = new Truck(rentVehicleType, customer);
+                                vehicle.rentVehicleType();
+                                System.out.println("Rental Cost=" + vehicle.calculateRentalCost());
+                                System.out.println("Do you want to your receipt?(Yes/No)");
+                                receipt = sc.next();
+                                if (receipt.equals("yes") || receipt.equals("Yes")) {
+                                    vehicle.printReceipt();
+                                } else {
+                                    System.out.println("Thank you for keeping green environment");
+                                }
+                                break;
+                            default:
+                                System.out.println("You did not select any option!");
+                        }
+                    } else {
+                        System.out.println("Please Enter Valid Vehicle Name");
+                    }
                     break;
-                case "2":
-                    rentVehicleType="Car";
-                    vehicle = new Car(rentVehicleType);
-                    vehicle.rentVehicleType();
-                    break;
-                case "3":
-                    rentVehicleType="Truck";
-                    vehicle = new Truck(rentVehicleType);
-                    vehicle.rentVehicleType();
-                    break;
-                default:
-                    System.out.println("You did not select any option!");
-            }
-        } else {
-            System.out.println("Please Enter Valid Vehicle Name");
+
+            //if the user pressed exit option
+            case "3":
+                System.out.println("You have choose Exit Option!");
+                return;
+
+            //if the user enters wrong option
+            default:
+                System.out.println("You option is Invalid!");
         }
-        Customer customer = new Customer(idproof, customername, contactno, age, noOfDays, licenseavl, licenseavltype, rentVehicleType);
-        customer.enterCustomerDetails();
     }
 }
-
