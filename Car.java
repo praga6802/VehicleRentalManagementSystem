@@ -236,6 +236,7 @@ public class Car extends Vehicle implements RentalRules{
                 //case for EV Cars for only automatic no manual gear
                 case "2":
                     fuelTypeOption = "EV";
+                    carTypeOption="Automatic Gear";
                     System.out.println("Which Brand do you want?");
                     System.out.println("Press 1 --> MAHINDRA, Press 2 --> TATA, Press 3 --> KIA");
                     carBrandOption = sc.next();
@@ -244,6 +245,7 @@ public class Car extends Vehicle implements RentalRules{
                         //case for HONDA
                         case "1":
                             carBrand = "MAHINDRA";
+                            //carTypeOption="Automatic Gear";
                             System.out.println("---"+carBrand+" EV Car Models ---");
                             System.out.println("Which Model you want?");
                             System.out.println("Press 1 --> MAHINDRA BE 6, Press 2 --> MAHINDRA XEV 9e, Press 3 --> MAHINDRA XUV400");
@@ -280,6 +282,7 @@ public class Car extends Vehicle implements RentalRules{
                         //case for KIA
                         case "3":
                             carBrand = "KIA";
+                      
                             System.out.println("---"+carBrand+" EV Car Models ---");
                             System.out.println("Which Model you want?");
                             System.out.println("Press 1 --> KIA EV6, Press 2 --> KIA EV5, Press 3 --> KIA EV9");
@@ -405,7 +408,7 @@ public class Car extends Vehicle implements RentalRules{
         System.out.println("License Available Type: "+customer.getLicenseavlType());
         System.out.println("Rent Vehicle: "+vehicleType);
         System.out.println("Fuel Type: "+fuelTypeOption);
-        System.out.println("Car Type: "+carTypeOption);
+        System.out.println("Car Type: "+this.carTypeOption);
         System.out.println("Car Brand: "+carBrand);
         System.out.println("Car Model: "+carModel);
         if(customer.getNoOfDays() > 0){
