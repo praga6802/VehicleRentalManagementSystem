@@ -26,7 +26,7 @@ public class Truck extends Vehicle implements RentalRules{
             {"Tata Motors LPT 710","Tata Motors SFC 712","Tata Motors LPT 712"},
             {"Ashok Leyland Partner Super", "Ashok Leyland Ecomet Star", "Ashok Leyland Boss"},
     };
-    //availablity of truck
+    //Availability of truck
     boolean[][] isRented ={
             {false, false, true},
             {true, false, true},
@@ -70,7 +70,6 @@ public class Truck extends Vehicle implements RentalRules{
             System.out.println("Which Brand do you want?");
             System.out.println("Press 1 --> Bharat Benz, Press 2 --> TATA Motors, Press 3 --> Ashok Leyland");
             String truckBrandOption = sc.next();
-            String truckModelOption = "";
             //case for bike brand
             switch (truckBrandOption) {
 
