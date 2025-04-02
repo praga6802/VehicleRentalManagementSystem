@@ -4,7 +4,6 @@ public class VehicleRentMain {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Vehicle vehicle;
-        Bike Bike;
         System.out.println("Welcome to JONI Vehicle Rentals..");
         System.out.println("Press 1 --> Check Vehicle Available, Press 2 --> Rent Vehicle, Press 3 --> Exit");
         String doOperation = sc.next();
@@ -140,6 +139,7 @@ public class VehicleRentMain {
                 sc.nextLine();
                 if (age < 18) {
                     System.out.println("Your are below age 18.. We are not provide for rentals..");
+                    sc.close();
                     return;
                 }
                 System.out.println("Do you have License(Yes/No)?");
@@ -150,6 +150,7 @@ public class VehicleRentMain {
                     licenseavltype = sc.next();
                 } else {
                     System.out.println("Without Driving License.. We would not provide vehicles for rentals");
+                    sc.close();
                     return;
                 }
                 System.out.println("ID Proof acceptable for renting \n Press 1. Aadhar, Press 2. Voter ID");
@@ -166,12 +167,14 @@ public class VehicleRentMain {
                             break;
                         default:
                             System.out.println("Without ID Proof we are not provide for rentals...");
+                            sc.close();
                             return;
                     }
                     System.out.println("Enter Contact Number: ");
                     String contactno = sc.next();
                     if (contactno.length() != 10) {
                         System.out.println("Please provide 10 digit mobile number..");
+                        sc.close();
                         return;
                     }
 
@@ -180,6 +183,7 @@ public class VehicleRentMain {
                     sc.nextLine();
                     if (noOfDays > 10) {
                         System.out.println("We are not provide more than 10 days...");
+                        sc.close();
                         return;
                     }
                     String rentVehicleType = "";
@@ -297,11 +301,13 @@ public class VehicleRentMain {
             //if the user pressed exit option
             case "3":
                 System.out.println("You have choose Exit Option!");
+                sc.close();
                 return;
 
             //if the user enters wrong option
             default:
                 System.out.println("You option is Invalid!");
         }
+        sc.close();
     }
 }
