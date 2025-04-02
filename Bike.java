@@ -1,5 +1,7 @@
 package rental;
 import java.util.Scanner;
+
+
 public class Bike extends Vehicle implements RentalRules {
 
     Scanner sc = new Scanner(System.in);
@@ -315,7 +317,7 @@ public class Bike extends Vehicle implements RentalRules {
                     bikeTypeOption = sc.next();
                     switch (bikeTypeOption) {
 
-                        //case ev scooters
+                        //case ev scooter
                         case "1":
                             bikeTypeOption = "Scooter";
                             System.out.println("Which Brand do you want?");
@@ -539,5 +541,10 @@ public class Bike extends Vehicle implements RentalRules {
             }
             System.out.println("==========================================");
             System.out.println("THANK YOU! VISIT AGAIN!");
+            sc.close();
         }
+        
 }
+
+
+
