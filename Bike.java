@@ -2,16 +2,19 @@ package rental;
 import java.util.Scanner;
 
 
-public class Bike extends Vehicle implements RentalRules {
+public class Bike extends Vehicle{
 
     Scanner sc = new Scanner(System.in);
-    String bikeBrandOption = "";
-    String bikeTypeOption = "";
-    String fuelTypeOption = "";
-    String bikeBrand = "";
-    String bikeModel = "";
-
-    //for checking joni availability of vehicles
+    String bikeBrandOption;
+    String bikeTypeOption;
+    String fuelTypeOption;
+    
+    String bikeBrand;
+    String bikeModel;
+    
+    Customer customer;
+   
+    //for checking JONI availability of vehicles
 
     String[] bikeBrand1 = {"Suzuki", "Honda", "TVS", "Bajaj", "Yamaha", "Royal Enfield","Kawasaki", "Ducati", "BMW","Ola", "Aprilla", "Ather", "Matter", "Revolt", "Oben"};
 
@@ -22,7 +25,7 @@ public class Bike extends Vehicle implements RentalRules {
             {"Bajaj Pulsar 150", "Bajaj Pulsar 220", "Bajaj Dominor 400"}, //bajaj
             {"Yamaha FZ X", "Yamaha MT 15", "Yamaha R15 V4"}, //yamaha
             {"Royal Enfield Classic 350", "Royal Enfield Meteor 650", "Royal Enfield Hunter 350", "Royal Enfield Interceptor 650"}, //royal enfield
-            {" KAWASAKI NINJA H2R", "KAWASAKI NINJA ZX-10R", "KAWASAKI NINJA H2 SX"},
+            {"KAWASAKI NINJA H2R", "KAWASAKI NINJA ZX-10R", "KAWASAKI NINJA H2 SX"},
             {"DUCATI PANIGALE V4", "DUCATI PANIGALE V4R", "DUCATI STREET FIGHTER V2"},
             {"BMW M 1000 XR", "BMW S 1000 R", "BMW M 1000 RR"},
             {"OLA S1 Pro+", "OLA S1 Air", "OLA Gig"},
@@ -33,6 +36,10 @@ public class Bike extends Vehicle implements RentalRules {
             {"OBEN RORR"}
 
     };
+    
+    public void showVehicles() {
+    	
+    }
     //stock of bikes
     boolean[][] isRented = {
         {false, false, true},//suzuki scooters
@@ -52,9 +59,8 @@ public class Bike extends Vehicle implements RentalRules {
         {true}
     };
 
-
-    //for renting vehicles
     int noOfDays;
+    //for renting vehicles
     public Bike(String vehicleType, Customer customer) {
         super(vehicleType, customer);
         this.noOfDays=customer.getNoOfDays();
@@ -64,8 +70,6 @@ public class Bike extends Vehicle implements RentalRules {
     public Bike(String vehicleType, String bikeBrand, String bikeModel) {
         super(vehicleType, bikeBrand, bikeModel);
     }
-
-
     public String[] getBikeBrand1() {
         return bikeBrand1;
     }
@@ -79,11 +83,13 @@ public class Bike extends Vehicle implements RentalRules {
 
 
     //check availability for bike
-    public boolean checkAvailability(String bikeBrand, String bikeModel) {
+    public boolean checkAvailability(String bikeModel) {
             for (int i = 0; i < bikeBrand1.length; i++) {
                 if (bikeBrand1[i].equalsIgnoreCase(bikeBrand)) {//checking out brand and this.brand is matching
+                	
                     for (int j = 0; j < bikeModel1[i].length; j++) {
-                        if (bikeModel1[i][j].equalsIgnoreCase(bikeModel)) { //check the modelname and this .model name matching
+                        if (bikeModel1[i][j].equalsIgnoreCase(bikeModel)) { 
+                        	System.out.println(bikeModel1[i][j]);//check the modelname and this .model name matching
                             if (isRented[i][j]) { // if it matches with model name & it checks for available
                                 return false; //if it is not rented
                             } else {
@@ -93,11 +99,10 @@ public class Bike extends Vehicle implements RentalRules {
                     }
                     //this not matches with brand and brand model
                     System.out.println("Your Bike " + bikeModel + " is not found under " + bikeBrand);
-                    break;
                 }
             }
             return false;
-        }
+       }
 
         public void rentVehicleType () {
             System.out.println("Which mode of bike do you want? Press -- 1 Normal or Press 2 --> EV Bikes");
@@ -120,8 +125,8 @@ public class Bike extends Vehicle implements RentalRules {
                             switch (bikeBrandOption) {
                                 //Suzuki Scooters
                                 case "1":
-                                    System.out.println("--- SUZUKI SCOOTER Models ---");
-                                    bikeBrand = "SUZUKI";
+                                	bikeBrand = "SUZUKI";
+                                    System.out.println("---"+bikeBrand+" "+bikeTypeOption+" Models ---");
                                     System.out.println("Which Model you want?");
                                     System.out.println("Press 1 --> SUZUKI ACCESS 125, Press 2 --> SUZUKI AVENIS, Press 3 --> SUZUKI BURGMAN STREET");
                                     String suzukiScooterModelOption = sc.next();
@@ -137,9 +142,10 @@ public class Bike extends Vehicle implements RentalRules {
                                     break;
 
                                 //TVS Scooters
+                                    
                                 case "2":
-                                    System.out.println("--- TVS SCOOTER Models ---");
-                                    bikeBrand = "TVS";
+                                	bikeBrand = "TVS";
+                                	System.out.println("---"+bikeBrand+" "+bikeTypeOption+" Models ---");
                                     System.out.println("Which Model you want?");
                                     System.out.println("Press 1 --> TVS JUPITER 125, Press 2 --> TVS NTORQ 125, Press 3 --> TVS ZEST 125");
                                     String tvsScooterModelOption = sc.next();
@@ -156,8 +162,8 @@ public class Bike extends Vehicle implements RentalRules {
 
                                 //Honda Scooters
                                 case "3":
-                                    System.out.println("--- HONDA SCOOTER Models ---");
-                                    bikeBrand = "HONDA";
+                                	bikeBrand = "HONDA";
+                                	System.out.println("---"+bikeBrand+" "+bikeTypeOption+" Models ---");
                                     System.out.println("Which Model you want?");
                                     System.out.println("Press 1 --> HONDA ACTIVA 110, Press 2 --> HONDA ACTIVA 125, Press 3 --> HONDA DIO 125");
                                     String hondaScooterModelOption = sc.next();
@@ -186,8 +192,8 @@ public class Bike extends Vehicle implements RentalRules {
                             switch (bikeBrandOption) {
                                 //Bajaj Gear Bikes
                                 case "1":
-                                    System.out.println("--- BAJAJ Bike Models ---");
-                                    bikeBrand = "BAJAJ";
+                                	bikeBrand = "BAJAJ";
+                                	System.out.println("---"+bikeBrand+" "+bikeTypeOption+" Models ---");
                                     System.out.println("Which Model you want?");
                                     System.out.println("Press 1 --> Bajaj Pulsar 150, Press 2 --> Bajaj Pulsar 220, Press 3 --> Bajaj Dominar 400");
                                     String bajajBikeModelOption = sc.next();
@@ -204,8 +210,8 @@ public class Bike extends Vehicle implements RentalRules {
 
                                 //Yamaha Gear Bikes
                                 case "2":
-                                    System.out.println("--- YAMAHA Bike Models ---");
-                                    bikeBrand = "YAMAHA";
+                                	bikeBrand = "YAMAHA";
+                                	System.out.println("---"+bikeBrand+" "+bikeTypeOption+" Models ---");
                                     System.out.println("Which Model you want?");
                                     System.out.println("Press 1 --> Yamaha FZ X, Press 2 --> Yamaha MT 15, Press 3 --> Yamaha R15 V4");
                                     String yamahaBikeModelOption = sc.next();
@@ -222,8 +228,8 @@ public class Bike extends Vehicle implements RentalRules {
 
                                 //Royal Enfield Gear Bikes
                                 case "3":
-                                    System.out.println("--- ROYAL ENFIELD Bike Models ---");
-                                    bikeBrand = "ROYAL ENFIELD";
+                                	bikeBrand = "ROYAL ENFIELD";
+                                	System.out.println("---"+bikeBrand+" "+bikeTypeOption+" Models ---");
                                     System.out.println("Which Model you want?");
                                     System.out.println("Press 1 --> Royal Enfield Classic 350, Press 2 --> Royal Enfield Meteor 650, Press 3 --> Royal Enfield Hunter 350, Press 4 --> Royal Enfield Interceptor 650");
                                     String reBikeModelOption = sc.next();
@@ -254,8 +260,8 @@ public class Bike extends Vehicle implements RentalRules {
 
                                 //Kawasaki Super Bikes
                                 case "1":
-                                    System.out.println("--- KAWASAKI Super Bikes ---");
-                                    bikeBrand = "KAWASAKI";
+                                	bikeBrand = "KAWASAKI";
+                                	System.out.println("---"+bikeBrand+" "+bikeTypeOption+" Models ---");
                                     System.out.println("Which Model you want?");
                                     System.out.println("Press 1 --> KAWASAKI NINJA H2R, Press 2 --> KAWASAKI NINJA ZX-10R, Press 3 --> KAWASAKI NINJA H2 SX");
                                     String kawasakiSuperBikeModelOption = sc.next();
@@ -271,8 +277,8 @@ public class Bike extends Vehicle implements RentalRules {
                                     break;
                                 //case ducati super bikes
                                 case "2":
-                                    System.out.println("--- DUCATI Super Bikes ---");
-                                    bikeBrand = "DUCATI";
+                                	bikeBrand = "DUCATI";
+                                	System.out.println("---"+bikeBrand+" "+bikeTypeOption+" Models ---");
                                     System.out.println("Which Model you want?");
                                     System.out.println("Press 1 --> DUCATI PANIGALE V4, Press 2 --> DUCATI PANIGALE V4 R, Press 3 --> DUCATI STREET FIGHTER V2");
                                     String ducatiSuperBikeModelOption = sc.next();
@@ -289,8 +295,8 @@ public class Bike extends Vehicle implements RentalRules {
 
                                 //case BMW Super Bikes
                                 case "3":
-                                    System.out.println("--- BMW Super Bikes ---");
-                                    bikeBrand = "BMW";
+                                	bikeBrand = "BMW";
+                                	System.out.println("---"+bikeBrand+" "+bikeTypeOption+" Models ---");
                                     System.out.println("Which Model you want?");
                                     System.out.println("Press 1 --> BMW M 1000 XR, Press 2 --> BMW S 1000 R, Press 3 --> BMW M 1000 RR");
                                     String bmwSuperBikeModelOption = sc.next();
@@ -311,7 +317,7 @@ public class Bike extends Vehicle implements RentalRules {
                     break;
                 //case for EV Bikes
                 case "2":
-                    fuelTypeOption = "EV Bike";
+                    fuelTypeOption = "EV";
                     System.out.println("What type of EV-Bike do you want?");
                     System.out.println("Press 1 --> Scooter, Press 2 --> Gear Bike");
                     bikeTypeOption = sc.next();
@@ -319,7 +325,7 @@ public class Bike extends Vehicle implements RentalRules {
 
                         //case ev scooter
                         case "1":
-                            bikeTypeOption = "Scooter";
+                            bikeTypeOption = " EV Scooter";
                             System.out.println("Which Brand do you want?");
                             System.out.println("Press 1 --> OLA, Press 2 --> APRILLA, Press 3 --> ATHER");
                             bikeBrandOption = sc.next();
@@ -327,8 +333,8 @@ public class Bike extends Vehicle implements RentalRules {
 
                                 //ola ev scooters
                                 case "1":
-                                    System.out.println("--- OLA EV Scooters ---");
-                                    bikeBrand = "OLA";
+                                	 bikeBrand = "OLA";
+                                	System.out.println("---"+bikeBrand+" "+bikeTypeOption+" Models ---");
                                     System.out.println("Which Model you want?");
                                     System.out.println("Press 1 --> OLA S1 Pro+, Press 2 --> OLA S1 Air, Press 3 --> OLA Gig");
                                     String olaScooterModelOption = sc.next();
@@ -345,15 +351,15 @@ public class Bike extends Vehicle implements RentalRules {
 
                                 //aprilla ev scooter
                                 case "2":
-                                    System.out.println("--- APRILLA EV Scooters ---");
-                                    bikeBrand = "APRILLA";
+                                	bikeBrand = "APRILLA";
                                     bikeModel = "Aprilla Typhoon";
+                                	System.out.println("---"+bikeBrand+" "+bikeTypeOption+" Models ---");
                                     break;
 
                                 //ather ev scooters
                                 case "3":
-                                    System.out.println("--- ATHER EV Scooters ---");
-                                    bikeBrand = "ATHER";
+                                	bikeBrand = "ATHER";
+                                	System.out.println("---"+bikeBrand+" "+bikeTypeOption+" Models ---");
                                     System.out.println("Which Model you want?");
                                     System.out.println("Press 1 --> ATHER 450 S, Press 2 --> ATHER 450 X, Press 3 --> ATHER 450 APEX");
                                     String atherScooterModelOption = sc.next();
@@ -375,7 +381,7 @@ public class Bike extends Vehicle implements RentalRules {
 
                         //case for EV Gear Bike
                         case "2":
-                            bikeTypeOption = "Gear Bike";
+                            bikeTypeOption = "EV Gear Bike";
                             System.out.println("Which Brand do you want?");
                             System.out.println("Press 1 --> MATTER, Press 2 --> REVOLT, Press 3 --> OBEN");
                             bikeBrandOption = sc.next();
@@ -383,8 +389,8 @@ public class Bike extends Vehicle implements RentalRules {
 
                                 //case matter ev gear bike
                                 case "1":
-                                    System.out.println("--- MATTER EV Gear Bikes ---");
-                                    bikeBrand = "MATTER";
+                                	bikeBrand = "MATTER";
+                                	System.out.println("---"+bikeBrand+" "+bikeTypeOption+" Models ---");
                                     System.out.println("Which Model you want?");
                                     System.out.println("Press 1 --> MATTER AERA 5000, Press 2 --> MATTER AERA 5000+");
                                     String matterBikeModelOption = sc.next();
@@ -398,15 +404,15 @@ public class Bike extends Vehicle implements RentalRules {
                                     break;
                                 //case revolt ev gear bike
                                 case "2":
-                                    System.out.println("--- REVOLT EV Gear Bikes ---");
-                                    bikeBrand = "REVOLT";
+                                	bikeBrand = "REVOLT";
                                     bikeModel = "REVOLT RV400";
+                                    System.out.println("---"+bikeBrand+" "+bikeTypeOption+" Models ---");
                                     break;
                                 //case oben ev gear bike
                                 case "3":
-                                    System.out.println("--- OBEN EV Gear Bikes ---");
-                                    bikeBrand = "OBEN";
+                                	bikeBrand = "OBEN";
                                     bikeModel = "OBEN RORR";
+                                	System.out.println("---"+bikeBrand+" "+bikeTypeOption+" Models ---");
                                     break;
 
                                 default:
@@ -422,10 +428,8 @@ public class Bike extends Vehicle implements RentalRules {
         double hour = 0.0;
         double totalDayRent;
         double totalHourRent;
-
         public double calculateRentalCost () {
             if (noOfDays > 0) {
-                //System.out.println("No of Days: " + noOfDays);
                 if (fuelTypeOption.equals("Normal") && bikeTypeOption.equals("Scooter")) {
                     if (bikeBrand.equals("SUZUKI")) {
                         totalDayRent = noOfDays * 400;
@@ -518,13 +522,13 @@ public class Bike extends Vehicle implements RentalRules {
                 return totalHourRent;
             }
         }
-
+  
         public void printReceipt () {
-            System.out.println("-------------Welcome to " + rentalname + "----------------");
+            System.out.println("-------------Welcome to " + rentalName + "----------------");
             System.out.println("Customer Name: " + customer.getCustomer_name());
-            System.out.println("Customer ID Proof: " + customer.getIdproof());
-            System.out.println("Customer Age: " + customer.getAge());
-            System.out.println("Customer Contact Number: " + customer.getContactNo());
+            System.out.println("ID Proof: " + customer.getIdproof());
+            System.out.println("Age: " + customer.getAge());
+            System.out.println("Contact Number: " + customer.getContactNo());
             System.out.println("License Available: " + customer.getLicenseAvl());
             System.out.println("License Available Type: " + customer.getLicenseavlType());
             System.out.println("Rent Vehicle: " + vehicleType);
