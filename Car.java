@@ -1,11 +1,11 @@
 package rental;
 import java.util.Scanner;
 
-public class Car extends Vehicle implements RentalRules{
+public class Car extends Vehicle{
     String carBrand, carModel;
     double yearOfExperience;
     String fuelTypeOption="";
-
+    Vehicle vehicle;
 
     //for renting car
     int noOfDays;
@@ -21,21 +21,21 @@ public class Car extends Vehicle implements RentalRules{
     }
 
     String[] carBrand1= {
-            "Honda","Tata","Hyundai",//normal manual
-            "Maruti","Tata","Kia",//normal automatic
-            "Mahindra","Tata","Kia" // ev automatic
+            "HONDA","TATA","HYUNDAI",//normal manual
+            "MARUTI","TATA","KIA",//normal automatic
+            "MAHINDRA","TATA","KIA" // EV automatic
     };
 
     String[][] carModel1={
-        {"Honda Amaze", "Honda City", "Honda Civic"},
-        {"Tata Tiago", "Tata Nexon", "Tata Punch"},
-        {"Hyundai i10", "Hyundai i20", "Hyundai Creta"},
-        {"Maruti Baleno", "Maruti Celerio", "Maruti Dzire"},
-        {"Tata Curvv","Tata Harrier","Tata Altroz"},
-        {"Kia Seltos","Kia Sonet","Kia Syros"},
-        {"Mahindra BE 6","Mahindra XEV 9e", "Mahindra XUV400"},
-        {"Tata Tiago EV", "Tata Nexon EV", "Tata Punch EV"},
-        {"Kia EV6","KIA EV5", "KIA EV9 "}
+        {"HONDA Amaze", "HONDA City", "HONDA Civic"},
+        {"TATA Tiago", "TATA Nexon", "TATA Punch"},
+        {"HYUNDAI i10", "HYUNDAI i20", "HYUNDAI Creta"},
+        {"MARUTI Baleno", "MARUTI Celerio", "MARUTI Dzire"},
+        {"TATA Curvv","TATA Harrier","TATA Altroz"},
+        {"KIA Seltos","KIA Sonet","KIA Syros"},
+        {"MAHINDRA BE 6","MAHINDRA XEV 9e", "MAHINDRA XUV400"},
+        {"TATA Tiago EV", "TATA Nexon EV", "TATA Punch EV"},
+        {"KIA EV6","KIA EV5", "KIA EV9 "}
     };
     //availability of car
     boolean[][] isRented ={
@@ -113,14 +113,14 @@ public class Car extends Vehicle implements RentalRules{
                                     carBrand = "HONDA";
                                     System.out.println("---"+carBrand+" Car Models ---");
                                     System.out.println("Which Model you want?");
-                                    System.out.println("Press 1 --> Honda Amaze, Press 2 --> Honda City, Press 3 --> Honda Civic");
+                                    System.out.println("Press 1 --> HONDA Amaze, Press 2 --> HONDA City, Press 3 --> HONDA Civic");
                                     String hondaCarModelOption = sc.next();
                                     if (hondaCarModelOption.equals("1")) {
-                                        carModel = "Honda Amaze";
+                                        carModel = "HONDA Amaze";
                                     } else if (hondaCarModelOption.equals("2")) {
-                                        carModel = "Honda City";
+                                        carModel = "HONDA City";
                                     } else if (hondaCarModelOption.equals("3")) {
-                                        carModel = "Honda Civic";
+                                        carModel = "HONDA Civic";
                                     } else {
                                         System.out.println("You have chosen invalid option from HONDA!");
                                     }
@@ -128,17 +128,17 @@ public class Car extends Vehicle implements RentalRules{
 
                                 //case for TATA
                                 case "2":
-                                    carBrand = "Tata";
+                                    carBrand = "TATA";
                                     System.out.println("---"+carBrand+" Car Models ---");
                                     System.out.println("Which Model you want?");
-                                    System.out.println("Press 1 --> Tata Tiago, Press 2 --> Tata Nexon, Press 3 --> Tata Punch");
+                                    System.out.println("Press 1 --> TATA Tiago, Press 2 --> TATA Nexon, Press 3 --> TATA Punch");
                                     String tataCarModelOption = sc.next();
                                     if (tataCarModelOption.equals("1")) {
-                                        carModel = "Tata Tiago";
+                                        carModel = "TATA Tiago";
                                     } else if (tataCarModelOption.equals("2")) {
-                                        carModel = "Tata Nexon";
+                                        carModel = "TATA Nexon";
                                     } else if (tataCarModelOption.equals("3")) {
-                                        carModel = "Tata Punch";
+                                        carModel = "TATA Punch";
                                     } else {
                                         System.out.println("You have chosen invalid option from TATA!");
                                     }
@@ -146,17 +146,17 @@ public class Car extends Vehicle implements RentalRules{
 
                                 //case for HYUNDAI
                                 case "3":
-                                    carBrand = "Hyundai";
+                                    carBrand = "HYUNDAI";
                                     System.out.println("---"+carBrand+" Car Models ---");
                                     System.out.println("Which Model you want?");
                                     System.out.println("Press 1 --> Hyundai i20, Press 2 --> Hyundai i10, Press 3 --> Hyundai Creta");
                                     String hyundaiCarModelOption = sc.next();
                                     if (hyundaiCarModelOption.equals("1")) {
-                                        carModel = "Hyundai i20";
+                                        carModel = "HYUNDAI i20";
                                     } else if (hyundaiCarModelOption.equals("2")) {
-                                        carModel = "Hyundai i10";
+                                        carModel = "HYUNDAI i10";
                                     } else if (hyundaiCarModelOption.equals("3")) {
-                                        carModel = "Hyundai Creta";
+                                        carModel = "HYUNDAI Creta";
                                     } else {
                                         System.out.println("You have chosen invalid option from HYUNDAI!");
                                     }
@@ -176,17 +176,17 @@ public class Car extends Vehicle implements RentalRules{
                             switch (carBrandOption) {
                                 //case for MARUTI Automatic
                                 case "1":
-                                    carBrand = "Maruti";
-                                    System.out.println("---"+carBrand+" Automatic Car Models ---");
+                                    carBrand = "MARUTI";
+                                    System.out.println("---"+carBrand+" "+carTypeOption+" Car Models ---");
                                     System.out.println("Which Model you want?");
-                                    System.out.println("Press 1 --> Maruti Baleno, Press 2 --> Maruti Celerio, Press 3 --> Maruti Dzire");
+                                    System.out.println("Press 1 --> MARUTI Baleno, Press 2 --> MARUTI Celerio, Press 3 --> MARUTI Dzire");
                                     String marutiAutoCarModelOption = sc.next();
                                     if (marutiAutoCarModelOption.equals("1")) {
-                                        carModel = "Maruti Baleno";
+                                        carModel = "MARUTI Baleno";
                                     } else if (marutiAutoCarModelOption.equals("2")) {
-                                        carModel = "Maruti Celerio";
+                                        carModel = "MARUTI Celerio";
                                     } else if (marutiAutoCarModelOption.equals("3")) {
-                                        carModel = "Maruti Dzire";
+                                        carModel = "MARUTI Dzire";
                                     } else {
                                         System.out.println("You have chosen invalid option from Maruti Automatic!");
                                     }
@@ -195,7 +195,7 @@ public class Car extends Vehicle implements RentalRules{
                                 //case for TATA Automatic
                                 case "2":
                                     carBrand = "TATA";
-                                    System.out.println("---"+carBrand+" Automatic Car Models ---");
+                                    System.out.println("---"+carBrand+" "+carTypeOption+" Car Models ---");
                                     System.out.println("Which Model you want?");
                                     System.out.println("Press 1 --> TATA Curvv, Press 2 --> TATA Harrier, Press 3 --> TATA Altroz");
                                     String tataAutoCarModelOption = sc.next();
@@ -213,7 +213,7 @@ public class Car extends Vehicle implements RentalRules{
                                 //case for KIA Automatic
                                 case "3":
                                     carBrand = "KIA";
-                                    System.out.println("---"+carBrand+" Automatic Car Models ---");
+                                    System.out.println("---"+carBrand+" "+carTypeOption+" Car Models ---");
                                     System.out.println("Which Model you want?");
                                     System.out.println("Press 1 --> KIA Seltos, Press 2 --> KIA Sonet, Press 3 --> KIA Syros");
                                     String kiaAutoCarModelOption = sc.next();
@@ -246,7 +246,7 @@ public class Car extends Vehicle implements RentalRules{
                         case "1":
                             carBrand = "MAHINDRA";
                             //carTypeOption="Automatic Gear";
-                            System.out.println("---"+carBrand+" EV Car Models ---");
+                            System.out.println("---"+carBrand+" "+carTypeOption+" Car Models ---");
                             System.out.println("Which Model you want?");
                             System.out.println("Press 1 --> MAHINDRA BE 6, Press 2 --> MAHINDRA XEV 9e, Press 3 --> MAHINDRA XUV400");
                             String mahindraEVCarModelOption = sc.next();
@@ -264,7 +264,7 @@ public class Car extends Vehicle implements RentalRules{
                         //case for TATA
                         case "2":
                             carBrand = "TATA";
-                            System.out.println("---"+carBrand+" EV Car Models ---");
+                            System.out.println("---"+carBrand+" "+carTypeOption+" Car Models ---");
                             System.out.println("Which Model you want?");
                             System.out.println("Press 1 --> TATA Tiago EV, Press 2 --> TATA Nexon EV, Press 3 --> TATA Punch EV");
                             String tataCarModelOption = sc.next();
@@ -282,8 +282,7 @@ public class Car extends Vehicle implements RentalRules{
                         //case for KIA
                         case "3":
                             carBrand = "KIA";
-                      
-                            System.out.println("---"+carBrand+" EV Car Models ---");
+                            System.out.println("---"+carBrand+" "+carTypeOption+" Car Models ---");
                             System.out.println("Which Model you want?");
                             System.out.println("Press 1 --> KIA EV6, Press 2 --> KIA EV5, Press 3 --> KIA EV9");
                             String hyundaiCarModelOption = sc.next();
@@ -399,11 +398,11 @@ public class Car extends Vehicle implements RentalRules{
     }
 
     public void printReceipt(){
-        System.out.println("-------------Welcome to "+rentalname+"----------------");
+        System.out.println("-------------Welcome to "+rentalName+"----------------");
         System.out.println("Customer Name: "+customer.getCustomer_name());
-        System.out.println("Customer ID Proof: "+customer.getIdproof());
-        System.out.println("Customer Age: "+customer.getAge());
-        System.out.println("Customer Contact Number: "+customer.getContactNo());
+        System.out.println("ID Proof: "+customer.getIdproof());
+        System.out.println("Age: "+customer.getAge());
+        System.out.println("Contact Number: "+customer.getContactNo());
         System.out.println("License Available: "+customer.getLicenseAvl());
         System.out.println("License Available Type: "+customer.getLicenseavlType());
         System.out.println("Rent Vehicle: "+vehicleType);
@@ -411,8 +410,8 @@ public class Car extends Vehicle implements RentalRules{
         System.out.println("Car Type: "+this.carTypeOption);
         System.out.println("Car Brand: "+carBrand);
         System.out.println("Car Model: "+carModel);
-        if(customer.getNoOfDays() > 0){
-            System.out.println("No Of Days: "+customer.getNoOfDays());
+        if(noOfDays > 0){
+            System.out.println("No Of Days: "+noOfDays);
             System.out.println("Rental Cost= "+totalDayRent);
         }
         else{
