@@ -1,10 +1,11 @@
 package rental;
 import java.util.Scanner;
 
-public class Truck extends Vehicle implements RentalRules{
+public class Truck extends Vehicle{
     String truckBrand, truckModel;
     double yearOfExperience;
     int noOfDays;
+    Vehicle vehicle;
 
     public Truck(String vehicleType, Customer customer){
         super(vehicleType,customer);
@@ -173,7 +174,7 @@ public class Truck extends Vehicle implements RentalRules{
     }
 
     public void printReceipt(){
-        System.out.println("-------------Welcome to "+rentalname+"----------------");
+        System.out.println("-------------Welcome to "+rentalName+"----------------");
         System.out.println("Customer Name: "+customer.getCustomer_name());
         System.out.println("ID Proof: "+customer.getIdproof());
         System.out.println("Age: "+customer.getAge());
@@ -183,8 +184,8 @@ public class Truck extends Vehicle implements RentalRules{
         System.out.println("Rent Vehicle: "+vehicleType);
         System.out.println("Truck Brand: "+truckBrand);
         System.out.println("Truck Model: "+truckModel);
-        if(customer.getNoOfDays() > 0){
-            System.out.println("No Of Days: "+customer.getNoOfDays());
+        if(noOfDays > 0){
+            System.out.println("No Of Days: "+noOfDays);
             System.out.println("Rental Cost= "+totalDayRent);
         }
         else{
