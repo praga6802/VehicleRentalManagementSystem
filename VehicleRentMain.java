@@ -1,9 +1,9 @@
 package rental;
 import java.util.Scanner;
-public class VehicleRentMain {
+public class VehicleRentMain extends RentalAdapter{
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Vehicle vehicle;
+        RentalAdapter vehicle;
         System.out.println("Welcome to JONI Vehicle Rentals..");
         System.out.println("Press 1 --> Check Vehicle Available, Press 2 --> Rent Vehicle, Press 3 --> Exit");
         String doOperation = sc.next();
@@ -20,7 +20,9 @@ public class VehicleRentMain {
                     case "1": //bike
                         vehicleType = "Bike";
                         Bike bike = new Bike();
-                        System.out.println("Available "+vehicleType+" Brands");
+                        
+                        //display the bike brands
+                        System.out.println("---Available "+vehicleType+" Brands---");
                         String[] bikeBrandsList = bike.getBikeBrand1(); //15 brands
                         for (int i = 0; i < bikeBrandsList.length; i++) {
                             System.out.print(bikeBrandsList[i]);
@@ -31,16 +33,20 @@ public class VehicleRentMain {
                         System.out.println();
                         System.out.println("Enter the Brand Name:");
                         String brandAvl = sc.nextLine();
-
-                        //display all the model of bike brand
                         String[][] bikeModelList = bike.getBikeModel1();
-                        for (String[] models : bikeModelList) {
-                            for (int j = 0; j < models.length; j++) {
-                                System.out.print(models[j]);
-                                if (j < bikeModelList.length - 1) {
-                                    System.out.print(", ");
-                                }
-                            }
+                        
+                        //display the models of which brand is selected
+                        for (int i=0;i<bikeBrandsList.length;i++) {
+                        	if(bikeBrandsList[i].equalsIgnoreCase(brandAvl)) {
+                        		System.out.println("--- Available Models for " + brandAvl + " ---");
+                        		for (int j = 0; j < bikeModelList[i].length; j++) {
+	                                System.out.print(bikeModelList[i][j]);
+	                                if (j < bikeModelList[i].length - 1) {
+	                                    System.out.print(", ");
+	                                }
+                        		}
+                        		break;
+                        	}
                         }
                         System.out.println();
                         System.out.println("Enter Model Name: ");
@@ -57,7 +63,7 @@ public class VehicleRentMain {
                     case "2": //car
                         vehicleType = "Car";
                         Car car = new Car();
-                        System.out.println("Available "+vehicleType+" Brands");
+                        System.out.println("----Available "+vehicleType+" Brands----");
                         String[] carBrandsList = car.getCarBrand1(); //15 brands
                         for (int i = 0; i < carBrandsList.length; i++) {
                             System.out.print(carBrandsList[i]);
@@ -68,16 +74,20 @@ public class VehicleRentMain {
                         System.out.println();
                         System.out.println("Enter the Brand Name:");
                         String carbrandAvl = sc.nextLine();
-
-                        //display all the model of bike brand
+                        
+                        //display the models of selected car brand
                         String[][] carModelList = car.getCarModel1();
-                        for (String[] models : carModelList) {
-                            for (int j = 0; j < models.length; j++) {
-                                System.out.print(models[j]);
-                                if (j < models.length - 1) {
-                                    System.out.print(", ");
-                                }
-                            }
+                        for(int i=0;i<carBrandsList.length;i++) {
+                        	if(carBrandsList[i].equalsIgnoreCase(carbrandAvl)) {
+                        		System.out.println("--- Available Models for " + carbrandAvl + " ---");
+                        		for(int j=0;j<carModelList[i].length;j++) {
+                        			System.out.print(carModelList[i][j]);
+                        			if(j<carModelList[i].length-1) {
+                        				System.out.print(", ");
+                        			}
+                        		}
+                        		break;
+                        	}
                         }
                         System.out.println();
                         System.out.println("Enter Model Name: ");
@@ -90,11 +100,12 @@ public class VehicleRentMain {
                             System.out.println(carmodelAvl + " is currently not available.");
                         }
                         break;
-                case "3": //truck
+                    case "3": //truck
                         vehicleType = "Truck";
                         Truck truck = new Truck();
-                        System.out.println("Available "+vehicleType+" Brands");
-                        String[] truckBrandsList = truck.getTruckBrandList(); //15 brands
+                        System.out.println("---Available "+vehicleType+" Brands---");
+                        //display the truck brands
+                        String[] truckBrandsList = truck.getTruckBrandList();
                         for (int i = 0; i < truckBrandsList.length; i++) {
                             System.out.print(truckBrandsList[i]);
                             if (i < truckBrandsList.length - 1) {
@@ -104,15 +115,20 @@ public class VehicleRentMain {
                         System.out.println();
                         System.out.println("Enter the Brand Name:");
                         String truckbrand = sc.nextLine();
-                        //display all the model of bike brand
+                        
+                        //display the model of selected truck brand
                         String[][] truckModelList = truck.getTruckModelList();
-                        for (String[] models : truckModelList) {
-                            for (int j = 1; j < truckModelList.length; j++) {
-                                System.out.print(models[j]);
-                                if (j < truckModelList.length - 1) {
-                                    System.out.print(", ");
-                                }
-                            }
+                        for(int i=0;i<truckBrandsList.length;i++) {
+                        	if(truckBrandsList[i].equalsIgnoreCase(truckbrand)) {
+                        		System.out.println("--- Available Models for " + truckbrand + " ---");
+                        		for(int j=0;j<truckModelList[i].length;j++) {
+                        			System.out.print(truckModelList[i][j]);
+                        			if(j < truckModelList[i].length-1) {
+                        				System.out.print(", ");
+                        			}
+                        		}
+                        		break;
+                        	}
                         }
                         System.out.println();
                         System.out.println("Enter Model Name: ");
@@ -126,7 +142,6 @@ public class VehicleRentMain {
                         }
                         break;
                 }
-                //checking operation finished
                 break;
 
             //rent vehicles
@@ -158,11 +173,11 @@ public class VehicleRentMain {
                 String idproof = sc.next();
                 switch (idproof) {
                         case "1":
-                            System.out.println("You have selected \"Aadhar\"");
+                            System.out.println(customer_name+" have selected \"Aadhar\"");
                             idproof = "Aadhar";
                             break;
                         case "2":
-                            System.out.println("You have selected \"Voter ID\" ");
+                            System.out.println(customer_name+" have selected \"Voter ID\" ");
                             idproof = "Voter ID";
                             break;
                         default:
@@ -181,7 +196,7 @@ public class VehicleRentMain {
                     System.out.println("Enter the No of Days:");
                     int noOfDays = sc.nextInt();
                     sc.nextLine();
-                    if (noOfDays > 10) {
+                    if (noOfDays > MAX_NO_OF_DAYS) {
                         System.out.println("We are not provide more than 10 days...");
                         sc.close();
                         return;
@@ -189,6 +204,7 @@ public class VehicleRentMain {
                     String rentVehicleType = "";
                     //case for selecting normal or ev vehicles
                     String receipt = "";
+                   
                     Customer customer = new Customer(idproof, customer_name, contactno, age, noOfDays, licenseavl, licenseavltype, rentVehicleType);
                     //customer.enterCustomerDetails();
                     // customer has only bike license
@@ -214,7 +230,7 @@ public class VehicleRentMain {
                         rentVehicleType = sc.next();
                         switch (rentVehicleType) {
                             case "1":
-                                rentVehicleType = "Bike";
+                                
                                 vehicle = new Bike(rentVehicleType, customer);
                                 vehicle.rentVehicleType();
                                 System.out.println("Rental Cost=" + vehicle.calculateRentalCost());
@@ -287,13 +303,14 @@ public class VehicleRentMain {
                                 if (receipt.equals("yes") || receipt.equals("Yes")) {
                                     vehicle.printReceipt();
                                 } else {
-                                    System.out.println("Thank you for keeping green environment");
+                                    System.out.println("Thank you for keeping green environment!");
                                 }
                                 break;
                             default:
                                 System.out.println("You did not select any option!");
                         }
-                    } else {
+                    } 
+                    else {
                         System.out.println("Please Enter Valid Vehicle Name");
                     }
                     break;
@@ -301,12 +318,13 @@ public class VehicleRentMain {
             //if the user pressed exit option
             case "3":
                 System.out.println("You have choose Exit Option!");
+                System.out.println("Thank you for your precious time!");
                 sc.close();
                 return;
 
             //if the user enters wrong option
             default:
-                System.out.println("You option is Invalid!");
+                System.out.println("Your option is Invalid!");
         }
         sc.close();
     }
