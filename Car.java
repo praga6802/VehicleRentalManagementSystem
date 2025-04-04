@@ -93,7 +93,6 @@ public class Car extends Vehicle {
 			if (carBrand1[i].equalsIgnoreCase(carBrand)) {// checking out brand and this.brand is matching
 				for (int j = 0; j < carModel1[i].length; j++) {
 					if (carModel1[i][j].equalsIgnoreCase(carModel)) {// check the modelname and this .model name
-						
 						//check is rented or not...
 						if (isRented[i][j]) { // if it matches with model name & it checks for available
 							return false; // if it is not rented
