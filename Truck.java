@@ -80,8 +80,7 @@ public class Truck extends Vehicle {
 		for (int i = 0; i < truckBrand1.length; i++) {
 			if (truckBrand1[i].equalsIgnoreCase(truckBrand)) {// checking out brand and this.brand is matching
 				for (int j = 0; j < truckModel1[i].length; j++) {
-					if (truckModel1[i][j].equalsIgnoreCase(truckModel)) { // check the modelname and this .model name
-																			// matching
+					if (truckModel1[i][j].equalsIgnoreCase(truckModel)) { // check the modelname and this .model name matching
 						if (isRented[i][j]) { // if it matches with model name & it checks for available
 							return false; // if it is not rented
 						} else {
