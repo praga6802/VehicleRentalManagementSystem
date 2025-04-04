@@ -108,7 +108,6 @@ public class Bike extends Vehicle {
 
 				for (int j = 0; j < bikeModel1[i].length; j++) {
 					if (bikeModel1[i][j].equalsIgnoreCase(bikeModel)) {
-						System.out.println(bikeModel1[i][j]);// check the modelname and this .model name matching
 						if (isRented[i][j]) { // if it matches with model name & it checks for available
 							return false; // if it is not rented
 						} else {
