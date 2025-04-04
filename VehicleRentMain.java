@@ -31,14 +31,14 @@ public class VehicleRentMain extends RentalAdapter {
 				bike.showBikeModelsList(bikeBrandAvl);
 				System.out.println();
 				System.out.println("Enter Model Name: ");
-				String bikemodelAvl = sc.nextLine();
-				vehicle = new Bike(vehicleType, bikeBrandAvl, bikemodelAvl);
-				isRented = bike.checkAvailability(bikeBrandAvl, bikemodelAvl);
+				String bikeModelAvl = sc.nextLine();
+				vehicle = new Bike(vehicleType, bikeBrandAvl, bikeModelAvl);
+				isRented = bike.checkAvailability(bikeBrandAvl, bikeModelAvl);
 				if (isRented) {
-					System.out.println(bikemodelAvl + " is available.");
+					System.out.println(bikeModelAvl + " is available.");
 				} 
 				else {
-					System.out.println(bikemodelAvl + " is currently not available.");
+					System.out.println(bikeModelAvl + " is currently not available.");
 				}
 				break;
 				
@@ -52,14 +52,14 @@ public class VehicleRentMain extends RentalAdapter {
 				car.showCarModelsList(carBrandAvl); //displaying all models of selected car brand
 				System.out.println();
 				System.out.println("Enter Model Name: ");
-				String carmodelAvl = sc.nextLine();
-				vehicle = new Bike(vehicleType, carmodelAvl, carmodelAvl);
-				isRented = car.checkAvailability(carmodelAvl, carmodelAvl);
+				String carModelAvl = sc.nextLine();
+				vehicle = new Bike(vehicleType, carBrandAvl, carModelAvl);
+				isRented = car.checkAvailability(carBrandAvl, carModelAvl);
 				if (isRented) {
-					System.out.println(carmodelAvl + " is available.");
+					System.out.println(carModelAvl + " is available.");
 				} 
 				else {
-					System.out.println(carmodelAvl + " is currently not available.");
+					System.out.println(carModelAvl + " is currently not available.");
 				}
 				break;
 				
@@ -73,13 +73,13 @@ public class VehicleRentMain extends RentalAdapter {
 				truck.showTruckModelsList(truckBrandAvl); //displaying all models of selected truck brand
 				System.out.println();
 				System.out.println("Enter Model Name: ");
-				String truckmodel = sc.nextLine();
-				vehicle = new Truck(vehicleType, truckBrandAvl, truckmodel);
-				isRented = truck.checkAvailability(truckBrandAvl, truckmodel);
+				String truckModel = sc.nextLine();
+				vehicle = new Truck(vehicleType, truckBrandAvl, truckModel);
+				isRented = truck.checkAvailability(truckBrandAvl, truckModel);
 				if (isRented) {
-					System.out.println(truckmodel + " is available.");
+					System.out.println(truckModel + " is available.");
 				} else {
-					System.out.println(truckmodel + " is currently not available.");
+					System.out.println(truckModel + " is currently not available.");
 				}
 				break;
 			}
@@ -99,11 +99,11 @@ public class VehicleRentMain extends RentalAdapter {
 				return;
 			}
 			System.out.println("Do you have License(Yes/No)?");
-			String licenseavl = sc.next();
-			String licenseavltype = "";
-			if (licenseavl.equals("Yes") || licenseavl.equals("yes")) {
+			String licenseAvl = sc.next();
+			String licenseAvlType = "";
+			if (licenseAvl.equals("Yes") || licenseAvl.equals("yes")) {
 				System.out.println("Enter the license of Vehicle Type(Car/Bike/Truck)");
-				licenseavltype = sc.next();
+				licenseAvlType = sc.next();
 			} else {
 				System.out.println("Without Driving License.. We would not provide vehicles for rentals");
 				sc.close();
@@ -111,15 +111,15 @@ public class VehicleRentMain extends RentalAdapter {
 			}
 			System.out.println("ID Proof acceptable for renting \n Press 1. Aadhar, Press 2. Voter ID");
 			System.out.println("Submit your ID Proof..");
-			String idproof = sc.next();
-			switch (idproof) {
+			String idProof = sc.next();
+			switch (idProof) {
 			case "1":
 				System.out.println(customer_name + " have selected \"Aadhar\"");
-				idproof = "Aadhar";
+				idProof = "Aadhar";
 				break;
 			case "2":
 				System.out.println(customer_name + " have selected \"Voter ID\" ");
-				idproof = "Voter ID";
+				idProof = "Voter ID";
 				break;
 			default:
 				System.out.println("Without ID Proof we are not provide for rentals...");
@@ -127,8 +127,8 @@ public class VehicleRentMain extends RentalAdapter {
 				return;
 			}
 			System.out.println("Enter Contact Number: ");
-			String contactno = sc.next();
-			if (contactno.length() != 10) {
+			String contactNo = sc.next();
+			if (contactNo.length() != 10) {
 				System.out.println("Please provide 10 digit mobile number..");
 				sc.close();
 				return;
@@ -146,11 +146,11 @@ public class VehicleRentMain extends RentalAdapter {
 			// case for selecting normal or ev vehicles
 			String receipt = "";
 
-			Customer customer = new Customer(idproof, customer_name, contactno, age, noOfDays, licenseavl,
-					licenseavltype, rentVehicleType);
+			Customer customer = new Customer(idProof, customer_name, contactNo, age, noOfDays, licenseAvl,
+					licenseAvlType, rentVehicleType);
 			// customer.enterCustomerDetails();
 			// customer has only bike license
-			if (licenseavltype.equals("Bike") || licenseavltype.equals("bike")) {
+			if (licenseAvlType.equals("Bike") || licenseAvlType.equals("bike")) {
 				System.out.println("You are eligible only for Bike Rentals..");
 				rentVehicleType = "Bike";
 				vehicle = new Bike(rentVehicleType, customer);
@@ -165,7 +165,7 @@ public class VehicleRentMain extends RentalAdapter {
 				}
 			}
 			// customer has car license - bike, car
-			else if (licenseavltype.equals("Car") || licenseavltype.equals("car")) {
+			else if (licenseAvlType.equals("Car") || licenseAvlType.equals("car")) {
 				System.out.println("Available Vehicle Types");
 				System.out.println("Press 1 --> Bike, Press 2 --> Car");
 				System.out.println("Which type of Vehicle would you like to rental?");
@@ -203,7 +203,7 @@ public class VehicleRentMain extends RentalAdapter {
 			}
 
 			// customer has truck license - bike, car and truck
-			else if (licenseavltype.equals("truck") || licenseavltype.equals("Truck")) {
+			else if (licenseAvlType.equals("truck") || licenseAvlType.equals("Truck")) {
 				System.out.println("Available Vehicle Types");
 				System.out.println("Press 1 --> Bike, Press 2 --> Car, Press 3 --> Truck");
 				System.out.println("Which type of Vehicle would you like to rental?");
