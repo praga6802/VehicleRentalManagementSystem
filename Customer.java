@@ -1,7 +1,7 @@
 package rental;
 
 public class Customer {
-
+	
 	private String idproof, customer_name, contactNo, licenseavl, licenseavlType, rentVehicleType;
 	private int age, noOfDays;
 
@@ -16,10 +16,6 @@ public class Customer {
 		this.licenseavlType = licenseavlType;
 		this.rentVehicleType = rentVehicleType;
 		this.noOfDays = noOfDays;
-	}
-
-	public Customer() {
-
 	}
 
 	// setters()
@@ -56,7 +52,7 @@ public class Customer {
 	}
 
 	// getters()
-	public String getCustomer_name() {
+	public String getCustomerName() {
 		return customer_name;
 	}
 
