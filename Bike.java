@@ -4,15 +4,11 @@ import java.util.Scanner;
 public class Bike extends Vehicle {
 
 	Scanner sc = new Scanner(System.in);
-	String bikeBrandOption;
-	String bikeTypeOption;
-	String fuelTypeOption;
+	String bikeBrandOption, bikeTypeOption, fuelTypeOption;
+	String bikeBrand, bikeModel;
+	int noOfDays;
 
-	String bikeBrand;
-	String bikeModel;
-
-	Customer customer;
-
+	
 	// for checking JONI availability of vehicles
 
 	String[] bikeBrand1 = { "Suzuki", "Honda", "TVS", "Bajaj", "Yamaha", "Royal Enfield", "Kawasaki", "Ducati", "BMW",
@@ -42,8 +38,8 @@ public class Bike extends Vehicle {
 			{ true, true, false }, { false, true, false }, { false, false, true }, { false, true, false }, { true },
 			{ false, true, true }, { false, false }, { false }, { true } };
 
-	int noOfDays;
 
+	//Constructors
 	// for renting vehicles
 	public Bike(String vehicleType, Customer customer) {
 		super(vehicleType, customer);
@@ -54,7 +50,8 @@ public class Bike extends Vehicle {
 	public Bike(String vehicleType, String bikeBrand, String bikeModel) {
 		super(vehicleType, bikeBrand, bikeModel);
 	}
-
+	
+	//getters()
 	// getting all brands
 	public String[] getBikeBrand1() {
 		return bikeBrand1;
@@ -70,6 +67,7 @@ public class Bike extends Vehicle {
 		super(vehicleType);
 	}
 	
+	//methods()
 	//show all bike brands
 	public void showBikeBrandsList() {
 		System.out.println("---Available " + vehicleType + " Brands---");
@@ -116,7 +114,7 @@ public class Bike extends Vehicle {
 					}
 				}
 				// this not matches with brand and brand model
-				System.out.println("Your Bike " + bikeModel + " is not found under " + bikeBrand);
+				System.out.println("\"You entered " + bikeModel + " model is not found under " + bikeBrand+ "\"");
 				break;
 			}
 		}
@@ -346,7 +344,7 @@ public class Bike extends Vehicle {
 
 			// case ev scooter
 			case "1":
-				bikeTypeOption = " EV Scooter";
+				bikeTypeOption = "EV Scooter";
 				System.out.println("Which Brand do you want?");
 				System.out.println("Press 1 --> OLA, Press 2 --> APRILLA, Press 3 --> ATHER");
 				bikeBrandOption = sc.next();
@@ -477,7 +475,7 @@ public class Bike extends Vehicle {
 				} else if (bikeBrand.equals("BMW")) {
 					totalDayRent = noOfDays * 950;
 				}
-			} else if (fuelTypeOption.equals("EV") && bikeTypeOption.equals("Scooter")) {
+			} else if (fuelTypeOption.equals("EV") && bikeTypeOption.equals("EV Scooter")) {
 				if (bikeBrand.equals("OLA")) {
 					totalDayRent = noOfDays * 200;
 				} else if (bikeBrand.equals("APRILLA")) {
@@ -485,7 +483,7 @@ public class Bike extends Vehicle {
 				} else if (bikeBrand.equals("ATHER")) {
 					totalDayRent = noOfDays * 250;
 				}
-			} else if (fuelTypeOption.equals("EV") && bikeTypeOption.equals("Gear Bike")) {
+			} else if (fuelTypeOption.equals("EV") && bikeTypeOption.equals("EV Gear Bike")) {
 				if (bikeBrand.equals("MATTER")) {
 					totalDayRent = noOfDays * 300;
 				} else if (bikeBrand.equals("REVOLT")) {
@@ -525,7 +523,7 @@ public class Bike extends Vehicle {
 				} else if (bikeBrand.equals("BMW")) {
 					totalHourRent = hour * 210;
 				}
-			} else if (fuelTypeOption.equals("EV") && bikeTypeOption.equals("Scooter")) {
+			} else if (fuelTypeOption.equals("EV") && bikeTypeOption.equals("EV Scooter")) {
 				if (bikeBrand.equals("OLA")) {
 					totalHourRent = hour * 20;
 				} else if (bikeBrand.equals("APRILLA")) {
@@ -533,7 +531,7 @@ public class Bike extends Vehicle {
 				} else if (bikeBrand.equals("ATHER")) {
 					totalHourRent = hour * 30;
 				}
-			} else if (fuelTypeOption.equals("EV") && bikeTypeOption.equals("Gear Bike")) {
+			} else if (fuelTypeOption.equals("EV") && bikeTypeOption.equals("EV Gear Bike")) {
 				if (bikeBrand.equals("MATTER")) {
 					totalHourRent = hour * 70;
 				} else if (bikeBrand.equals("REVOLT")) {
@@ -546,39 +544,11 @@ public class Bike extends Vehicle {
 		}
 	}
 	
-	/*public String[] dispBikeBrandsList() {
-		System.out.println("---Available " + super.vehicleType + " Brands---");
-		String[] bikeBrandsList = getBikeBrand1(); // 15 brands
-		for (int i = 0; i < bikeBrandsList.length; i++) {
-			System.out.print(bikeBrandsList[i]);
-			if (i < bikeBrandsList.length - 1) {
-				System.out.print(", ");
-			}
-		}
-		return bikeBrandsList;
-	}
 	
-	public String[][] dispBikeModelList(String bikeBrandAvl){
-		String[][] bikeModelList = getBikeModel1();
-		String[] bikeBrandsList=dispBikeBrandsList();
-		int i=0;
-		for (i = 0; i < bikeBrandsList.length; i++) {
-			if (bikeBrandsList[i].equalsIgnoreCase(bikeBrandAvl)) {
-				System.out.println("--- Available Models for " + bikeBrandAvl + " ---");
-				//System.out.print(bikeModelList[i]);
-				if (i < bikeModelList[i].length - 1) {
-					System.out.print(", ");
-				}
-			}
-		}
-		return bikeModelList;
-		}
-		*/
-
 	//printing receipt for bike
 	public void printReceipt() {
 		System.out.println("-------------Welcome to " + rentalName + "----------------");
-		System.out.println("Customer Name: " + customer.getCustomer_name());
+		System.out.println("Customer Name: " + customer.getCustomerName());
 		System.out.println("ID Proof: " + customer.getIdproof());
 		System.out.println("Age: " + customer.getAge());
 		System.out.println("Contact Number: " + customer.getContactNo());
