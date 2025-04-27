@@ -12,10 +12,11 @@ public abstract class Vehicle extends RentalAdapter {
 	protected String[][] modelVehiclesList;
 	Customer customer;
 
+	//Constructors
 	// for renting vehicles
 	public Vehicle(String vehicleType, Customer customer) {
 		this.vehicleType = vehicleType;
-		this.customer = new Customer(customer.getIdproof(), customer.getCustomer_name(), customer.getContactNo(),
+		this.customer = new Customer(customer.getIdproof(), customer.getCustomerName(), customer.getContactNo(),
 				customer.getAge(), customer.getNoOfDays(), customer.getLicenseAvl(), customer.getLicenseavlType(),
 				customer.getRentVehicleType());
 	}
@@ -37,7 +38,7 @@ public abstract class Vehicle extends RentalAdapter {
 		this.vehicleModel = vehicleModel;
 	}
 
-	// setters
+	// setters()
 	public void setVehicleType(String vehicleType) {
 		this.vehicleType = vehicleType;
 	}
@@ -70,7 +71,7 @@ public abstract class Vehicle extends RentalAdapter {
 		this.modelVehiclesList = modelVehiclesList;
 	}
 
-	// getters
+	// getters()
 	public String getVehicleType() {
 		return vehicleType;
 	}
