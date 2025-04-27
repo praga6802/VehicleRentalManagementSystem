@@ -2,11 +2,15 @@ package rental;
 import java.util.Scanner;
 
 public class Car extends Vehicle {
+	Scanner sc = new Scanner(System.in);
+	
 	String carBrand, carModel;
 	double yearOfExperience;
-	String fuelTypeOption = "";
+	String fuelTypeOption, carTypeOption, carBrandOption, carModelOption;
 	Vehicle vehicle;
+	int noOfDays;
 
+	
 	String[] carBrand1 = { "HONDA", "HYUNDAI", // normal manual
 			"MARUTI", "TATA", "KIA", // normal automatic
 			"MAHINDRA", "TATA EV", "KIA EV" // EV automatic
@@ -16,13 +20,13 @@ public class Car extends Vehicle {
 			{ "MARUTI Baleno", "MARUTI Celerio", "MARUTI Dzire" }, { "TATA Curvv", "TATA Harrier", "TATA Altroz" },
 			{ "KIA Seltos", "KIA Sonet", "KIA Syros" }, { "MAHINDRA BE 6", "MAHINDRA XEV 9e", "MAHINDRA XUV400" },
 			{ "TATA Tiago EV", "TATA Nexon EV", "TATA Punch EV" }, { "KIA EV6", "KIA EV5", "KIA EV9 " } };
+	
 	// availability of car
 	boolean[][] isRented = { { false, false, true }, { false, true, false },
 			{ false, false, true }, { true, false, true }, { true, false, false }, { false, false, false },
 			{ false, false, true }, { false, true, true } };
 
 
-	int noOfDays;
 
 	// Constructors
 	// for renting car
@@ -41,12 +45,9 @@ public class Car extends Vehicle {
 		super(vehicleType, carBrand, carModel);
 	}
 
-	Scanner sc = new Scanner(System.in);
-	String carTypeOption = "";
-	String carBrandOption = "";
-	String carModelOption = "";
 
-	// getting all car brands
+	// getters()
+	//getting all carbrandsList()
 	public String[] getCarBrandList() {
 		return carBrand1;
 	}
@@ -102,7 +103,7 @@ public class Car extends Vehicle {
 					}
 				}
 				// this not matches with brand and brand model
-				System.out.println("Your Car " + carModel + " is not found under " + carBrand);
+				System.out.println("\"You entered " + carModel + " model is not found under " + carBrand+ "\"");
 			}
 		}
 		return false;
@@ -391,10 +392,12 @@ public class Car extends Vehicle {
 		}
 	}
 
+	
+	
 	//printing receipt for car
 	public void printReceipt() {
 		System.out.println("-------------Welcome to " + rentalName + "----------------");
-		System.out.println("Customer Name: " + customer.getCustomer_name());
+		System.out.println("Customer Name: " + customer.getCustomerName());
 		System.out.println("ID Proof: " + customer.getIdproof());
 		System.out.println("Age: " + customer.getAge());
 		System.out.println("Contact Number: " + customer.getContactNo());
