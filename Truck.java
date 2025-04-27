@@ -25,6 +25,7 @@ public class Truck extends Vehicle {
 		this.noOfDays = customer.getNoOfDays();
 	}
 
+	//Constructors
 	// for vehicle availability
 	public Truck(String vehicleType, String truckBrand, String truckModel) {
 		super(vehicleType, truckBrand, truckModel);
@@ -35,6 +36,7 @@ public class Truck extends Vehicle {
 		super(vehicleType);
 	}
 
+	//getters()
 	// getting all car brands
 	public String[] getTruckBrandList() {
 		return truckBrand1;
@@ -45,7 +47,9 @@ public class Truck extends Vehicle {
 		return truckModel1;
 	}
 
-	
+
+	//methods()
+	//show all truck brands
 	public void showTruckBrandsList() {
 		System.out.println("---Available " + vehicleType + " Brands---");
 		// display the truck brands
@@ -58,6 +62,7 @@ public class Truck extends Vehicle {
 		}
 	}
 	
+	//show all truck models
 	public void showTruckModelsList(String truckBrandAvl) {
 		String[][] truckModelList = truckModel1; //getting all models
 		String[] truckBrandsList=truckBrand1; //getting all brands
@@ -89,13 +94,12 @@ public class Truck extends Vehicle {
 					}
 				}
 				// this not matches with brand and brand model
-				System.out.println("Your Car " + truckModel + " is not found under " + truckBrand);
+				System.out.println("\"You entered " + truckModel + " model is not found under " + truckBrand);
 				break;
 			}
 		}
 		return false;
 	}
-	
 	
 
 	// rent for truck
@@ -211,7 +215,7 @@ public class Truck extends Vehicle {
 	//printing receipt for truck
 	public void printReceipt() {
 		System.out.println("-------------Welcome to " + rentalName + "----------------");
-		System.out.println("Customer Name: " + customer.getCustomer_name());
+		System.out.println("Customer Name: " + customer.getCustomerName());
 		System.out.println("ID Proof: " + customer.getIdproof());
 		System.out.println("Age: " + customer.getAge());
 		System.out.println("Contact Number: " + customer.getContactNo());
