@@ -14,4 +14,5 @@ public class RentalAdapter implements RentalRules {
 
 	public void rentVehicleType() {
 	}
+	
 }
