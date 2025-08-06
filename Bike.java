@@ -6,10 +6,6 @@ import static rental.RentalRules.COMPANY_NAME;
 public class Bike extends Vehicle {
 
 	Scanner sc = new Scanner(System.in);
-
-
-	// for checking JONI availability of vehicles
-
 	String[] bikeBrands = {"Suzuki", "Honda", "TVS", "Bajaj", "Yamaha", "Royal Enfield", "Kawasaki", "Ducati", "BMW",
 			"Ola", "Aprilla", "Ather", "Matter", "Revolt", "Oben"};
 
@@ -78,7 +74,7 @@ public class Bike extends Vehicle {
 		return bikeBrandsList;
 	}
 
-	//getting the models of selected bike brand
+	//show all the bike brands
 	public List<String> showBikeModelsList(String bikeBrand) {
 		String[] bikeBrandsList = bikeBrands;
 		String[][] bikeModelsList = bikeModels;
@@ -101,31 +97,13 @@ public class Bike extends Vehicle {
 		return model;
 	}
 
-
-	public boolean brandCase(List<String> brands, String bikeBrand) {
-		for (String brand : brands) {
-			if (brand.equalsIgnoreCase(bikeBrand))
-				return true;
-		}
-		return false;
-	}
-
-	public boolean modelCase(List<String> models, String bikeModel) {
-		for (String model : models) {
-			if (model.equalsIgnoreCase(bikeModel)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public List<String> getRentVehicleDetails(String vehicleType) {
 
 		List<String> availableBrands = showBikeBrandsList();
 
 		System.out.println("\nEnter the Brand Name:");
 		String bikeBrand = sc.nextLine();
-		while (!brandCase(availableBrands, bikeBrand)) {
+		while (!brandExists(availableBrands, bikeBrand)) {
 			System.out.println("Brand Not Found!");
 			System.out.println("Re-enter the brand name");
 			bikeBrand = sc.nextLine();
@@ -141,7 +119,7 @@ public class Bike extends Vehicle {
 		System.out.println("\nEnter Model Name: ");
 		String bikeModel = sc.nextLine();
 
-		while (!modelCase(availableModels, bikeModel)) {
+		while (!modelExists(availableModels, bikeModel)) {
 			System.out.println("Model Not Found");
 			System.out.println("Re- Enter the Brand model again..");
 			bikeModel = sc.nextLine();
@@ -186,7 +164,6 @@ public class Bike extends Vehicle {
 			}
 		}
 	}
-
 
 	// rent for bike
 	public void rentVehicleType() {
@@ -352,31 +329,10 @@ public class Bike extends Vehicle {
 		}
 	}
 
-	public void chooseVehicleModel(String brandName, String brandModels[]) {
-		System.out.println("--- " + brandName + " " + getVehicleSubType() + " Models ---");
-		System.out.println("Select the Model from " + brandName);
-		for (int i = 0; i < brandModels.length; i++) {
-			System.out.println("Press " + (i + 1) + "-->" + brandName + " " + brandModels[i]);
-		}
-		int modelOption = sc.nextInt();
-		try {
-			if (modelOption >= 1 && modelOption <= brandModels.length) {
-				setVehicleModel(brandName + " " + brandModels[modelOption - 1]);
-			} else {
-				System.out.println("Invalid model option for" + brandName);
-			}
-		} catch (NumberFormatException n) {
-			System.out.println("Please enter a valid Number");
-		}
-	}
-
-
 	//calculate rental cost for bike
 	public double calculateRentalCost() {
-		double dayRent = getDayRent(), hourRent = getHourRent(), noOfHours = customer.getNoOfHours();
 		Map<String, Integer> dayRates = new HashMap<>();
 		Map<String, Integer> hourRates = new HashMap<>();
-
 		dayRates.put("Petrol-Scooter-SUZUKI", 400);
 		dayRates.put("Petrol-Scooter-TVS", 400);
 		dayRates.put("Petrol-Scooter-HONDA", 450);
@@ -408,30 +364,6 @@ public class Bike extends Vehicle {
 		hourRates.put("EV-Gear Bike-MATTER", 70);
 		hourRates.put("EV-Gear Bike-REVOLT", 75);
 		hourRates.put("EV-Gear Bike-OBEN", 65);
-
-		String key = getFuelType().trim() + "-" + getVehicleSubType().trim() + "-" + getVehicleBrand().trim().toUpperCase();
-
-		if (customer.getNoOfDays() > 0) {
-			if (dayRates.containsKey(key)) {
-				dayRent = customer.getNoOfDays() * dayRates.get(key);
-				return dayRent;
-			} else {
-				System.out.println("No daily day rent available for selected vehicle");
-				return 0.0;
-			}
-		} else {
-			System.out.println("Enter the no of hours:");
-			double hour = sc.nextDouble();
-			customer.setNoOfHours(hour);
-			if (hourRates.containsKey(key)) {
-				hourRent = hour * hourRates.get(key);
-				return hourRent;
-			} else {
-				System.out.println("No hourly rent available for selected vehicle");
-				return 0.0;
-			}
-		}
+		return calculateKeyRent(dayRates,hourRates);
 	}
 }
-	
-
