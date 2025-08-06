@@ -80,29 +80,11 @@ public class Truck extends Vehicle {
 		return truckModels;
 	}
 
-	public boolean brandCase(List<String> brands, String truckBrand) {
-		for (String brand : brands) {
-			if (brand.equalsIgnoreCase(truckBrand)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean modelCase(List<String> models, String truckModel) {
-		for (String model : models) {
-			if (model.equalsIgnoreCase(truckModel)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public List<String> getRentVehicleDetails(String vehicleType) {
 		List<String> truckBrands = showTruckBrandsList();
 		System.out.println("\nEnter the Brand Name:");
 		String truckBrand = sc.nextLine();
-		while (!brandCase(truckBrands, truckBrand)) {
+		while (!brandExists(truckBrands, truckBrand)) {
 			System.out.println("Brand Not found");
 			System.out.println("Re-Enter the brand name again");
 			truckBrand = sc.nextLine();
@@ -115,7 +97,7 @@ public class Truck extends Vehicle {
 		List<String> truckModels = showTruckModelsList(truckBrand);
 		System.out.println("\nEnter Model Name: ");
 		String truckModel = sc.nextLine();
-		while (!brandCase(truckModels, truckModel)) {
+		while (!modelExists(truckModels, truckModel)) {
 			System.out.println("Model Not found");
 			System.out.println("Re-Enter the model name again");
 			truckModel = sc.nextLine();
@@ -192,61 +174,19 @@ public class Truck extends Vehicle {
 		}
 	}
 
-	public void chooseVehicleModel(String brandName, String brandModels[]) {
-		System.out.println("--- " + brandName + " " + getVehicleSubType() + " Models ---");
-		System.out.println("Select the Model from " + brandName);
-		for (int i = 0; i < brandModels.length; i++) {
-			System.out.println("Press " + (i + 1) + "-->" + brandName + " " + brandModels[i]);
-		}
-		int modelOption = sc.nextInt();
-		try {
-			if (modelOption >= 1 && modelOption <= brandModels.length) {
-				setVehicleModel(brandName + " " + brandModels[modelOption - 1]);
-			} else {
-				System.out.println("Invalid model option for" + brandName);
-			}
-		} catch (NumberFormatException n) {
-			System.out.println("Please enter a valid Number");
-		}
-	}
-
-	double hour = 0.0;
-	double totalDayRent;
-	double totalHourRent;
-
 	//calculate rental cost for truck
 	public double calculateRentalCost() {
-		double dayRent = getDayRent(), hourRent = getHourRent();
 		Map<String, Integer> dayRates = new HashMap<>();
 		Map<String, Integer> hourRates = new HashMap<>();
-
-		dayRates.put("Diesel-Manual Gear-BHARAT BENZ", 1000);
-		dayRates.put("Diesel-Manual Gear-TATA MOTORS", 1000);
-		dayRates.put("Diesel-Manual Gear-ASHOK LEYLAND", 1000);
+		dayRates.put("Diesel-Manual Gear-BHARAT BENZ", 15000);
+		dayRates.put("Diesel-Manual Gear-TATA MOTORS", 12000);
+		dayRates.put("Diesel-Manual Gear-ASHOK LEYLAND", 10000);
 
 		hourRates.put("Diesel-Manual Gear-BHARAT BENZ", 1000);
-		hourRates.put("Diesel-Manual Gear-TATA MOTORS", 1000);
-		hourRates.put("Diesel-Manual Gear-ASHOK LEYLAND", 1000);
-
-
-		String key = getFuelType().trim() + "-" + getVehicleSubType().trim() + "-" + getVehicleBrand().toUpperCase().trim();
-
-		if (customer.getNoOfDays() > 0) {
-			if (dayRates.containsKey(key)) {
-				dayRent = customer.getNoOfDays() * dayRates.get(key);
-				return dayRent;
-			} else {
-				System.out.println("No daily day rent available for selected vehicle");
-				return 0.0;
-			}
-		} else {
-			if (hourRates.containsKey(key)) {
-				hourRent = customer.getNoOfHours() * hourRates.get(key);
-				return hourRent;
-			} else {
-				System.out.println("No hour rent available for selected vehicle");
-				return 0.0;
-			}
-		}
+		hourRates.put("Diesel-Manual Gear-TATA MOTORS", 900);
+		hourRates.put("Diesel-Manual Gear-ASHOK LEYLAND", 800);
+		return calculateKeyRent(dayRates,hourRates);
 	}
-	}
+}
+
+
