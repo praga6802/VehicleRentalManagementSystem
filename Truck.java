@@ -1,22 +1,22 @@
 package rental;
-import java.util.Scanner;
+import java.util.*;
 
 public class Truck extends Vehicle {
 	String truckBrand, truckModel;
 	double yearOfExperience;
-	int noOfDays;
+	double noOfDays;
 	Vehicle vehicle;
 	Scanner sc = new Scanner(System.in);
-	
+
 	// truck brands
-	String[] truckBrand1 = { "Bharat Benz", "Tata Motors", "Ashok Leyland" };
+	String[] truckBrands = {"Bharat Benz", "Tata Motors", "Ashok Leyland"};
 
 	// truck brand models
-	String[][] truckModel1 = { { "Bharat Benz MDT 1217C", "Bharat Benz HDT 2826R", "Bharat Benz HDTC 2828C" },
-			{ "Tata Motors LPT 710", "Tata Motors SFC 712", "Tata Motors LPT 712" },
-			{ "Ashok Leyland Partner Super", "Ashok Leyland Ecomet Star", "Ashok Leyland Boss" }, };
+	String[][] truckModels = {{"Bharat Benz MDT 1217C", "Bharat Benz HDT 2826R", "Bharat Benz HDTC 2828C"},
+			{"Tata Motors LPT 710", "Tata Motors SFC 712", "Tata Motors LPT 712"},
+			{"Ashok Leyland Partner Super", "Ashok Leyland Ecomet Star", "Ashok Leyland Boss"},};
 	// Availability of truck
-	boolean[][] isRented = { { false, false, true }, { true, false, true }, { false, true, false }, };
+	boolean[][] isRented = {{false, false, true}, {true, false, true}, {false, true, false},};
 
 	// Constructors
 	//rent truck
@@ -25,47 +25,45 @@ public class Truck extends Vehicle {
 		this.noOfDays = customer.getNoOfDays();
 	}
 
-	//Constructors
 	// for vehicle availability
 	public Truck(String vehicleType, String truckBrand, String truckModel) {
 		super(vehicleType, truckBrand, truckModel);
 	}
-	
+
 	//truck availability
 	public Truck(String vehicleType) {
 		super(vehicleType);
 	}
 
-	//getters()
 	// getting all car brands
 	public String[] getTruckBrandList() {
-		return truckBrand1;
+		return truckBrands;
 	}
 
 	// getting all truck models
 	public String[][] getTruckModelList() {
-		return truckModel1;
+		return truckModels;
 	}
 
 
-	//methods()
-	//show all truck brands
-	public void showTruckBrandsList() {
-		System.out.println("---Available " + vehicleType + " Brands---");
+	public List<String> showTruckBrandsList() {
+		System.out.println("---Available " + getVehicleType() + " Brands---");
 		// display the truck brands
 		String[] truckBrandsList = getTruckBrandList();
+		List<String> truckBrands = Arrays.asList(truckBrandsList);
 		for (int i = 0; i < truckBrandsList.length; i++) {
 			System.out.print(truckBrandsList[i]);
 			if (i < truckBrandsList.length - 1) {
 				System.out.print(", ");
 			}
 		}
+		return truckBrands;
 	}
-	
-	//show all truck models
-	public void showTruckModelsList(String truckBrandAvl) {
-		String[][] truckModelList = truckModel1; //getting all models
-		String[] truckBrandsList=truckBrand1; //getting all brands
+
+	public List<String> showTruckModelsList(String truckBrandAvl) {
+		String[][] truckModelList = truckModels; //getting all models
+		String[] truckBrandsList = truckBrands; //getting all brands
+		List<String> truckModels = new ArrayList<>();
 		for (int i = 0; i < truckBrandsList.length; i++) {
 			if (truckBrandsList[i].equalsIgnoreCase(truckBrandAvl)) { //our model and display name are same or not
 				System.out.println("--- Available Models for " + truckBrandAvl + " ---");
@@ -74,107 +72,141 @@ public class Truck extends Vehicle {
 					if (j < truckModelList[i].length - 1) {
 						System.out.print(", ");
 					}
+					truckModels.add(truckModelList[i][j]);
 				}
 				break;
 			}
 		}
+		return truckModels;
 	}
 
-	// check availability of truck
-	public boolean checkAvailability(String truckBrand, String truckModel) {
-		for (int i = 0; i < truckBrand1.length; i++) {
-			if (truckBrand1[i].equalsIgnoreCase(truckBrand)) {// checking out brand and this.brand is matching
-				for (int j = 0; j < truckModel1[i].length; j++) {
-					if (truckModel1[i][j].equalsIgnoreCase(truckModel)) { // check the modelname and this .model name matching
-						if (isRented[i][j]) { // if it matches with model name & it checks for available
-							return false; // if it is not rented
-						} else {
-							return true; // if it is rented
-						}
-					}
-				}
-				// this not matches with brand and brand model
-				System.out.println("\"You entered " + truckModel + " model is not found under " + truckBrand);
-				break;
+	public boolean brandCase(List<String> brands, String truckBrand) {
+		for (String brand : brands) {
+			if (brand.equalsIgnoreCase(truckBrand)) {
+				return true;
 			}
 		}
 		return false;
 	}
-	
+
+	public boolean modelCase(List<String> models, String truckModel) {
+		for (String model : models) {
+			if (model.equalsIgnoreCase(truckModel)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public List<String> getRentVehicleDetails(String vehicleType) {
+		List<String> truckBrands = showTruckBrandsList();
+		System.out.println("\nEnter the Brand Name:");
+		String truckBrand = sc.nextLine();
+		while (!brandCase(truckBrands, truckBrand)) {
+			System.out.println("Brand Not found");
+			System.out.println("Re-Enter the brand name again");
+			truckBrand = sc.nextLine();
+		}
+		for (String brand : truckBrands) {
+			if (brand.equalsIgnoreCase(truckBrand)) {
+				truckBrand = brand;
+			}
+		}
+		List<String> truckModels = showTruckModelsList(truckBrand);
+		System.out.println("\nEnter Model Name: ");
+		String truckModel = sc.nextLine();
+		while (!brandCase(truckModels, truckModel)) {
+			System.out.println("Model Not found");
+			System.out.println("Re-Enter the model name again");
+			truckModel = sc.nextLine();
+		}
+		for (String model : truckModels) {
+			if (model.equalsIgnoreCase(truckModel)) {
+				truckModel = model;
+			}
+		}
+		List<String> details = new ArrayList<String>();
+		details.add(truckBrand);
+		details.add(truckModel);
+		return details;
+	}
+
+	// check availability for bike
+	public void checkAvailability(String vehicleType, String truckBrand, String truckModel) {
+		for (int i = 0; i < truckBrands.length; i++) {
+			if (truckBrands[i].equalsIgnoreCase(truckBrand)) {// checking out brand and this.brand is matching
+				for (int j = 0; j < truckModels[i].length; j++) {
+					if (truckModels[i][j].equalsIgnoreCase(truckModel)) {
+						if (!isRented[i][j]) { // if it matches with model name & it checks for available
+							System.out.println(truckModel + " is available..");
+						} else {
+							System.out.println(truckModel + " is already rented!..");
+							System.out.println("Do you want to see other vehicles?");
+							String choice = sc.next();
+							sc.nextLine();
+							if (choice.equalsIgnoreCase("yes")) {
+								List<String> details = getRentVehicleDetails(getVehicleType());
+								String newBrand = details.get(0);
+								String newModel = details.get(1);
+								checkAvailability(vehicleType, newBrand, newModel);
+							} else
+								System.out.println("Thank You!");
+						}
+					}
+				}
+			}
+		}
+	}
 
 	// rent for truck
 	public void rentVehicleType() {
+		setFuelType("Diesel");
+		setVehicleSubType("Manual Gear");
 		System.out.println("Enter years of Experience (Min Exp. 3 Years): ");
 		yearOfExperience = sc.nextDouble();
 		sc.nextLine();
 		if (yearOfExperience >= 3) {
 			System.out.println("Which Brand do you want?");
 			System.out.println("Press 1 --> Bharat Benz, Press 2 --> TATA Motors, Press 3 --> Ashok Leyland");
-			String truckBrandOption = sc.next();
+			brandTypeOption = sc.next();
 			// case for bike brand
-			switch (truckBrandOption) {
+			switch (brandTypeOption) {
+				case "1":
+					setVehicleBrand("Bharat Benz");
+					chooseVehicleModel(getVehicleBrand(), new String[]{"MDT 1217C", "HDT 2826R", "HDTC 2828C"});
+					break;
 
-			// case for HONDA
-			case "1":
-				truckBrand = "Bharat Benz";
-				System.out.println("---" + truckBrand + " Models ---");
-				System.out.println("Which Model you want?");
-				System.out.println(
-						"Press 1 --> Bharat Benz MDT 1217C, Press 2 --> Bharat Benz HDT 2826R, Press 3 -->Bharat Benz HDTC 2828C");
-				String bharatTruckModeloption = sc.next();
-				if (bharatTruckModeloption.equals("1")) {
-					truckModel = "Bharat Benz MDT 1217C";
-				} else if (bharatTruckModeloption.equals("2")) {
-					truckModel = "Bharat Benz HDT 2826R";
-				} else if (bharatTruckModeloption.equals("3")) {
-					truckModel = "Bharat Benz HDTC 2828C";
-				} else {
-					System.out.println("You have chosen invalid option from Bharat Benz!");
-				}
-				break;
-
-			// case for TATA Motors
-			case "2":
-				truckBrand = "TATA Motors";
-				System.out.println("---" + truckBrand + " Models ---");
-				System.out.println("Which Model you want?");
-				System.out.println(
-						"Press 1 --> TATA Motors LPT 710, Press 2 --> TATA Motors SFC 712, Press 3 --> TATA Motors LPT 712");
-				String tataTruckModelOption = sc.next();
-				if (tataTruckModelOption.equals("1")) {
-					truckModel = "TATA Motors LPT 710";
-				} else if (tataTruckModelOption.equals("2")) {
-					truckModel = "TATA Motors SFC 712";
-				} else if (tataTruckModelOption.equals("3")) {
-					truckModel = "TATA Motors LPT 712";
-				} else {
-					System.out.println("You have chosen invalid option from TATA Motors!");
-				}
-				break;
-
-			// case for HYUNDAI
-			case "3":
-				truckBrand = "Ashok Leyland";
-				System.out.println("---" + truckBrand + " Models ---");
-				System.out.println("Which Model you want?");
-				System.out.println(
-						"Press 1 --> Ashok Leyland Partner Super, Press 2 --> Ashok Leyland Ecomet Star, Press 3 --> Ashok Leyland Boss");
-				String ashokLeylandTruckModelOption = sc.next();
-				if (ashokLeylandTruckModelOption.equals("1")) {
-					truckModel = "Ashok Leyland Partner Super";
-				} else if (ashokLeylandTruckModelOption.equals("2")) {
-					truckModel = "Ashok Leyland Ecomet Star";
-				} else if (ashokLeylandTruckModelOption.equals("3")) {
-					truckModel = "Ashok Leyland Boss";
-				} else {
-					System.out.println("You have chosen invalid option from Ashok Leyland!");
-				}
-				break;
-			default:
-				System.out.println("You did not select any trucks");
+				case "2":
+					setVehicleBrand("TATA Motors");
+					chooseVehicleModel(getVehicleBrand(), new String[]{"LPT 710", "SFC 712", "LPT 712"});
+					break;
+				case "3":
+					setVehicleBrand("Ashok Leyland");
+					chooseVehicleModel(getVehicleBrand(), new String[]{"Partner Super", "Ecomet Star", "Boss"});
+					break;
+				default:
+					System.out.println("You did not select any trucks");
 			}
 		} else {
 			System.out.println("Experience is less than 3 years! Sorry we wont provide car rentals!");
+		}
+	}
+
+	public void chooseVehicleModel(String brandName, String brandModels[]) {
+		System.out.println("--- " + brandName + " " + getVehicleSubType() + " Models ---");
+		System.out.println("Select the Model from " + brandName);
+		for (int i = 0; i < brandModels.length; i++) {
+			System.out.println("Press " + (i + 1) + "-->" + brandName + " " + brandModels[i]);
+		}
+		int modelOption = sc.nextInt();
+		try {
+			if (modelOption >= 1 && modelOption <= brandModels.length) {
+				setVehicleModel(brandName + " " + brandModels[modelOption - 1]);
+			} else {
+				System.out.println("Invalid model option for" + brandName);
+			}
+		} catch (NumberFormatException n) {
+			System.out.println("Please enter a valid Number");
 		}
 	}
 
@@ -184,54 +216,37 @@ public class Truck extends Vehicle {
 
 	//calculate rental cost for truck
 	public double calculateRentalCost() {
-		// if the user enters no of days >0 day rent
-		if (noOfDays > 0) {
-			System.out.println("No of Days: " + noOfDays);
-			if (truckBrand.equals("Bharat Benz")) {
-				totalDayRent = noOfDays * 1500;
-			} else if (truckBrand.equals("TATA Motors")) {
-				totalDayRent = noOfDays * 1600;
-			} else if (truckBrand.equals("Ashok Leyland")) {
-				totalDayRent = noOfDays * 1300;
-			}
-			return totalDayRent;
-		}
+		double dayRent = getDayRent(), hourRent = getHourRent();
+		Map<String, Integer> dayRates = new HashMap<>();
+		Map<String, Integer> hourRates = new HashMap<>();
 
-		// hourly rent
-		else {
-			System.out.println("Enter the no of hours: ");
-			hour = sc.nextDouble();
-			if (truckBrand.equals("Bharat Benz")) {
-				totalHourRent = hour * 400;
-			} else if (truckBrand.equals("TATA Motors")) {
-				totalHourRent = hour * 500;
-			} else if (truckBrand.equals("Ashok Leyland")) {
-				totalHourRent = hour * 300;
-			}
-			return totalHourRent;
-		}
-	}
+		dayRates.put("Diesel-Manual Gear-BHARAT BENZ", 1000);
+		dayRates.put("Diesel-Manual Gear-TATA MOTORS", 1000);
+		dayRates.put("Diesel-Manual Gear-ASHOK LEYLAND", 1000);
 
-	//printing receipt for truck
-	public void printReceipt() {
-		System.out.println("-------------Welcome to " + rentalName + "----------------");
-		System.out.println("Customer Name: " + customer.getCustomerName());
-		System.out.println("ID Proof: " + customer.getIdproof());
-		System.out.println("Age: " + customer.getAge());
-		System.out.println("Contact Number: " + customer.getContactNo());
-		System.out.println("License Available: " + customer.getLicenseAvl());
-		System.out.println("License Available Type: " + customer.getLicenseavlType());
-		System.out.println("Rent Vehicle: " + vehicleType);
-		System.out.println("Truck Brand: " + truckBrand);
-		System.out.println("Truck Model: " + truckModel);
-		if (noOfDays > 0) {
-			System.out.println("No Of Days: " + noOfDays);
-			System.out.println("Rental Cost= " + totalDayRent);
+		hourRates.put("Diesel-Manual Gear-BHARAT BENZ", 1000);
+		hourRates.put("Diesel-Manual Gear-TATA MOTORS", 1000);
+		hourRates.put("Diesel-Manual Gear-ASHOK LEYLAND", 1000);
+
+
+		String key = getFuelType().trim() + "-" + getVehicleSubType().trim() + "-" + getVehicleBrand().toUpperCase().trim();
+
+		if (customer.getNoOfDays() > 0) {
+			if (dayRates.containsKey(key)) {
+				dayRent = customer.getNoOfDays() * dayRates.get(key);
+				return dayRent;
+			} else {
+				System.out.println("No daily day rent available for selected vehicle");
+				return 0.0;
+			}
 		} else {
-			System.out.println("Hours Taken: " + hour);
-			System.out.println("Rental Cost= " + totalHourRent);
+			if (hourRates.containsKey(key)) {
+				hourRent = customer.getNoOfHours() * hourRates.get(key);
+				return hourRent;
+			} else {
+				System.out.println("No hour rent available for selected vehicle");
+				return 0.0;
+			}
 		}
-		System.out.println("=======================================");
-		System.out.println("THANK YOU! VISIT AGAIN!");
 	}
-}
+	}
