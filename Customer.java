@@ -1,86 +1,95 @@
 package rental;
 
 public class Customer {
-	
-	private String idproof, customer_name, contactNo, licenseavl, licenseavlType, rentVehicleType;
-	private int age, noOfDays;
 
-	// customer details
-	Customer(String idproof, String customer_name, String contactNo, int age, int noOfDays, String licenseavl,
-			String licenseavlType, String rentVehicleType) {
-		this.customer_name = customer_name;
-		this.idproof = idproof;
-		this.contactNo = contactNo;
-		this.age = age;
-		this.licenseavl = licenseavl;
-		this.licenseavlType = licenseavlType;
-		this.rentVehicleType = rentVehicleType;
-		this.noOfDays = noOfDays;
+	private String idProof, customerName, contactNo, licenseAvl, licenseAvlType, rentVehicleType;
+	private int age;
+	private double noOfDays;
+	private double noOfHours;
+
+	public double getNoOfHours() {
+		return noOfHours;
 	}
 
-	// setters()
-	public void setCustomer(String customer_name) {
-		this.customer_name = customer_name;
+	public void setNoOfHours(double noOfHours) {
+		this.noOfHours = noOfHours;
 	}
 
-	public void setIdproof(String idproof) {
-		this.idproof = idproof;
-	}
-
-	public void setContactNo(String contactNo) {
-		this.contactNo = contactNo;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	public void setRentVehicleType(String rentVehicleType) {
-		this.rentVehicleType = rentVehicleType;
-	}
-
-	public void setNoOfDays(int noOfDays) {
-		this.noOfDays = noOfDays;
-	}
-
-	public void setLicenseavlType(String licenseavlType) {
-		this.licenseavlType = licenseavlType;
-	}
-
-	public void setLicenseAvl(String licenseavl) {
-		this.licenseavl = licenseavl;
-	}
-
-	// getters()
 	public String getCustomerName() {
-		return customer_name;
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getIdProof() {
+		return idProof;
+	}
+
+	public void setIdProof(String idProof) {
+		this.idProof = idProof;
 	}
 
 	public String getContactNo() {
 		return contactNo;
 	}
 
-	public int getAge() {
-		return age;
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
+	}
+
+	public String getLicenseAvl() {
+		return licenseAvl;
+	}
+
+	public void setLicenseAvl(String licenseAvl) {
+		this.licenseAvl = licenseAvl;
+	}
+
+	public String getLicenseAvlType() {
+		return licenseAvlType;
+	}
+
+	public void setLicenseAvlType(String licenseAvlType) {
+		this.licenseAvlType = licenseAvlType;
 	}
 
 	public String getRentVehicleType() {
 		return rentVehicleType;
 	}
 
-	public int getNoOfDays() {
+	public void setRentVehicleType(String rentVehicleType) {
+		this.rentVehicleType = rentVehicleType;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public double getNoOfDays() {
 		return noOfDays;
 	}
 
-	public String getLicenseavlType() {
-		return licenseavlType;
+	public void setNoOfDays(double noOfDays) {
+		this.noOfDays = noOfDays;
 	}
 
-	public String getLicenseAvl() {
-		return licenseavl;
+	// customer details
+	public Customer(String idProof, String customerName, String contactNo, int age, double noOfDays,double noOfHours, String licenseAvl, String licenseAvlType, String rentVehicleType) {
+		this.customerName = customerName;
+		this.idProof = idProof;
+		this.contactNo = contactNo;
+		this.age = age;
+		this.licenseAvl = licenseAvl;
+		this.licenseAvlType = licenseAvlType;
+		this.rentVehicleType = rentVehicleType;
+		this.noOfDays = noOfDays;
+		this.noOfHours=noOfHours;
 	}
 
-	public String getIdproof() {
-		return idproof;
-	}
 }
