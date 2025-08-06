@@ -1,32 +1,30 @@
 package rental;
-import java.util.Scanner;
+import java.util.*;
+
+import static rental.RentalRules.COMPANY_NAME;
 
 public class Car extends Vehicle {
-	Scanner sc = new Scanner(System.in);
-	
 	String carBrand, carModel;
 	double yearOfExperience;
-	String fuelTypeOption, carTypeOption, carBrandOption, carModelOption;
+	String fuelTypeOption = "";
 	Vehicle vehicle;
-	int noOfDays;
 
-	
-	String[] carBrand1 = { "HONDA", "HYUNDAI", // normal manual
+	String[] carBrands = { "HONDA", "HYUNDAI", // normal manual
 			"MARUTI", "TATA", "KIA", // normal automatic
 			"MAHINDRA", "TATA EV", "KIA EV" // EV automatic
 	};
 
-	String[][] carModel1 = { { "HONDA Amaze", "HONDA City", "HONDA Civic" }, { "HYUNDAI i10", "HYUNDAI i20", "HYUNDAI Creta" },
+	String[][] carModels = { { "HONDA Amaze", "HONDA City", "HONDA Civic" }, { "HYUNDAI i10", "HYUNDAI i20", "HYUNDAI Creta" },
 			{ "MARUTI Baleno", "MARUTI Celerio", "MARUTI Dzire" }, { "TATA Curvv", "TATA Harrier", "TATA Altroz" },
 			{ "KIA Seltos", "KIA Sonet", "KIA Syros" }, { "MAHINDRA BE 6", "MAHINDRA XEV 9e", "MAHINDRA XUV400" },
 			{ "TATA Tiago EV", "TATA Nexon EV", "TATA Punch EV" }, { "KIA EV6", "KIA EV5", "KIA EV9 " } };
-	
 	// availability of car
 	boolean[][] isRented = { { false, false, true }, { false, true, false },
 			{ false, false, true }, { true, false, true }, { true, false, false }, { false, false, false },
 			{ false, false, true }, { false, true, true } };
 
 
+	double noOfDays;
 
 	// Constructors
 	// for renting car
@@ -45,35 +43,41 @@ public class Car extends Vehicle {
 		super(vehicleType, carBrand, carModel);
 	}
 
+	Scanner sc = new Scanner(System.in);
+	String carTypeOption = "";
+	String carBrandOption = "";
+	String carModelOption = "";
 
-	// getters()
-	//getting all carbrandsList()
+	// getting all car brands
 	public String[] getCarBrandList() {
-		return carBrand1;
+		return carBrands;
 	}
 
 	// getting all car models
 	public String[][] getCarModelList() {
-		return carModel1;
+		return carModels;
 	}
 	
 	//getting all car brands
-	public void showCarBrandsList() {
-		System.out.println("---Available " + vehicleType + " Brands---");
-		// display the truck brands
+	public List<String> showCarBrandsList() {
+		System.out.println("---Available " + getVehicleType() + " Brands---");
+		// display the truck brand
 		String[] carBrandsList = getCarBrandList();
-		for (int i = 0; i < carBrandsList.length; i++) {
-			System.out.print(carBrandsList[i]);
+		List<String> carBrands= Arrays.asList(carBrandsList);
+		for (int i = 0; i < carBrands.size(); i++) {
+			System.out.print(carBrands.get(i));
 			if (i < carBrandsList.length - 1) {
 				System.out.print(", ");
 			}
 		}
+		return carBrands;
 	}
 	
 	//getting all models of selected car brand
-	public void showCarModelsList(String carBrandAvl) {
-		String[][] carModelList = carModel1; //getting all models
-		String[] carBrandsList = carBrand1; //getting all brands
+	public List<String> showCarModelsList(String carBrandAvl) {
+		String[][] carModelList = carModels; //getting all models
+		String[] carBrandsList = carBrands; //getting all brands
+		List<String> models=new ArrayList<>();
 		for (int i = 0; i < carBrandsList.length; i++) {
 			if (carBrandsList[i].equalsIgnoreCase(carBrandAvl)) { //our model and display name are same or not
 				System.out.println("--- Available Models for " + carBrandAvl + " ---");
@@ -82,31 +86,97 @@ public class Car extends Vehicle {
 					if (j < carModelList[i].length - 1) {
 						System.out.print(", ");
 					}
+					models.add(carModelList[i][j]);
 				}
+				System.out.println();
 				break;
 			}
 		}
+		return models;
 	}
 
-	// check availability for car
-	public boolean checkAvailability(String carBrand, String carModel) {
-		for (int i = 0; i < carBrand1.length; i++) {
-			if (carBrand1[i].equalsIgnoreCase(carBrand)) {// checking out brand and this.brand is matching
-				for (int j = 0; j < carModel1[i].length; j++) {
-					if (carModel1[i][j].equalsIgnoreCase(carModel)) {// check the modelname and this .model name
-						//check is rented or not...
-						if (isRented[i][j]) { // if it matches with model name & it checks for available
-							return false; // if it is not rented
-						} else {
-							return true; // if it is rented
-						}
-					}
-				}
-				// this not matches with brand and brand model
-				System.out.println("\"You entered " + carModel + " model is not found under " + carBrand+ "\"");
+	public boolean brandCase(List<String> brands, String carBrand){
+		for(String brand:brands){
+			if(brand.equalsIgnoreCase(carBrand)){
+				return true;
 			}
 		}
 		return false;
+	}
+	public boolean modelCase(List<String> models, String model){
+		for(String carModel:models){
+			if(carModel.equalsIgnoreCase(model)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// check availability for car
+	public List<String> getRentVehicleDetails(String vehicleType){
+		List<String> carBrands=showCarBrandsList();
+		System.out.println();
+		System.out.println("Enter the Brand Name:");
+		String carBrand = sc.nextLine();
+		while(!brandCase(carBrands,carBrand)){
+			System.out.println("Brand Not Found!");
+			System.out.println("Re-enter the Brand Name Again");
+			carBrand=sc.nextLine();
+		}
+		for(String brand:carBrands){
+			if(brand.equalsIgnoreCase(carBrand)){
+				carBrand=brand;
+			}
+			break;
+		}
+
+		List<String> carModels=showCarModelsList(carBrand);
+		System.out.println("\nEnter Model Name: ");
+		String carModel = sc.nextLine();
+		while(!modelCase(carModels,carModel)){
+			System.out.println("Model Not found");
+			System.out.println("Re-enter the model again");
+			carModel=sc.nextLine();
+		}
+		for(String model: carModels){
+			if(model.equalsIgnoreCase(carModel)){
+				carModel=model;
+				break;
+			}
+		}
+		List<String> details=new ArrayList<String>();
+		details.add(carBrand.trim());
+		details.add(carModel.trim());
+		return details;
+	}
+	// check availability for bike
+	public void checkAvailability(String vehicleType, String carBrand, String carModel) {
+		for (int i = 0; i < carBrands.length; i++) {
+			if (carBrands[i].equalsIgnoreCase(carBrand)) {// checking out brand and this.brand is matching
+				for (int j = 0; j < carModels[i].length; j++) {
+					if (carModels[i][j].equalsIgnoreCase(carModel)) {
+						if (!isRented[i][j]) { // if it matches with model name & it checks for available
+							System.out.println(carModel+" is available..");
+							return;
+						} else {
+							System.out.println(carModel+ " is already rented!..");
+							System.out.println("Do you want to see other vehicles?");
+							String choice=sc.next();
+							sc.nextLine();
+							if(choice.equalsIgnoreCase("yes")){
+								List<String> details=getRentVehicleDetails(getVehicleType());
+								String newBrand=details.get(0);
+								String newModel=details.get(1);
+								checkAvailability(vehicleType,newBrand,newModel);
+							}
+
+							else
+								System.out.println("Thank You!");
+						}
+					}
+				}
+			}
+		}
 	}
 
 	// rent for car
@@ -115,307 +185,185 @@ public class Car extends Vehicle {
 		yearOfExperience = sc.nextDouble();
 		sc.nextLine();
 		if (yearOfExperience >= 0.6) {
-			System.out.println("Which type of car do you want? Press -- 1 Normal, Press 2 --> EV Cars");
+			System.out.println("Which type of car do you want? Press -- 1 Petrol, Press 2 --> EV Cars");
 			fuelTypeOption = sc.nextLine();
 			switch (fuelTypeOption) {
-			// case for Normal Car
-			case "1":
-				fuelTypeOption = "Normal";
-				System.out.println("Which type of gear system do you want?");
-				System.out.println("Press 1 --> Manual Gear, Press 2 --> Automatic Gear");
-				carTypeOption = sc.next();
-				switch (carTypeOption) {
-				// case normal manual gear
+				// case for Normal Car
 				case "1":
-					carTypeOption = "Manual Gear";
-					System.out.println("Which Brand do you want?");
-					System.out.println("Press 1 --> HONDA, Press 2 --> HYUNDAI");
-					carBrandOption = sc.next();
-					// case for normal manual brand
-					switch (carBrandOption) {
-					// case for HONDA
-					case "1":
-						carBrand = "HONDA";
-						System.out.println("---" + carBrand + " Car Models ---");
-						System.out.println("Which Model you want?");
-						System.out.println("Press 1 --> HONDA Amaze, Press 2 --> HONDA City, Press 3 --> HONDA Civic");
-						String hondaCarModelOption = sc.next();
-						if (hondaCarModelOption.equals("1")) {
-							carModel = "HONDA Amaze";
-						} else if (hondaCarModelOption.equals("2")) {
-							carModel = "HONDA City";
-						} else if (hondaCarModelOption.equals("3")) {
-							carModel = "HONDA Civic";
-						} else {
-							System.out.println("You have chosen invalid option from HONDA!");
-						}
-						break;
-
-					// case for HYUNDAI
-					case "2":
-						carBrand = "HYUNDAI";
-						System.out.println("---" + carBrand + " Car Models ---");
-						System.out.println("Which Model you want?");
-						System.out
-								.println("Press 1 --> Hyundai i20, Press 2 --> Hyundai i10, Press 3 --> Hyundai Creta");
-						String hyundaiCarModelOption = sc.next();
-						if (hyundaiCarModelOption.equals("1")) {
-							carModel = "HYUNDAI i20";
-						} else if (hyundaiCarModelOption.equals("2")) {
-							carModel = "HYUNDAI i10";
-						} else if (hyundaiCarModelOption.equals("3")) {
-							carModel = "HYUNDAI Creta";
-						} else {
-							System.out.println("You have chosen invalid option from HYUNDAI!");
-						}
-						break;
-
-					default:
-						System.out.println("You did not selected any manual gear system cars");
+					setFuelType("Petrol");
+					System.out.println("Which type of gear system do you want?");
+					System.out.println("Press 1 --> Manual Gear, Press 2 --> Automatic Gear");
+					vehicleTypeOption = sc.next();
+					switch (vehicleTypeOption) {
+						// case normal manual gear
+						case "1":
+							setVehicleSubType("Manual Gear");
+							handleBrandSelection(getFuelType(), getVehicleSubType());
+							break;
+						case "2":
+							setVehicleSubType("Automatic Gear");
+							handleBrandSelection(getFuelType(), getVehicleSubType());
+							break;
+						default:
+							System.out.println("You didn't select a valid Petrol " + getVehicleType() + " option.");
 					}
 					break;
-
-				// case for normal automatic gear
 				case "2":
-					carTypeOption = "Automatic Gear";
-					System.out.println("Which Brand do you want?");
-					System.out.println("Press 1 --> MARUTI, Press 2 --> TATA, Press 3 --> KIA");
-					carBrandOption = sc.next();
-					// case for normal manual brand
-					switch (carBrandOption) {
-					// case for MARUTI Automatic
-					case "1":
-						carBrand = "MARUTI";
-						System.out.println("---" + carBrand + " " + carTypeOption + " Car Models ---");
-						System.out.println("Which Model you want?");
-						System.out.println(
-								"Press 1 --> MARUTI Baleno, Press 2 --> MARUTI Celerio, Press 3 --> MARUTI Dzire");
-						String marutiAutoCarModelOption = sc.next();
-						if (marutiAutoCarModelOption.equals("1")) {
-							carModel = "MARUTI Baleno";
-						} else if (marutiAutoCarModelOption.equals("2")) {
-							carModel = "MARUTI Celerio";
-						} else if (marutiAutoCarModelOption.equals("3")) {
-							carModel = "MARUTI Dzire";
-						} else {
-							System.out.println("You have chosen invalid option from Maruti Automatic!");
-						}
-						break;
-
-					// case for TATA Automatic
-					case "2":
-						carBrand = "TATA";
-						System.out.println("---" + carBrand + " " + carTypeOption + " Car Models ---");
-						System.out.println("Which Model you want?");
-						System.out.println("Press 1 --> TATA Curvv, Press 2 --> TATA Harrier, Press 3 --> TATA Altroz");
-						String tataAutoCarModelOption = sc.next();
-						if (tataAutoCarModelOption.equals("1")) {
-							carModel = "TATA Curvv";
-						} else if (tataAutoCarModelOption.equals("2")) {
-							carModel = "TATA Harrier";
-						} else if (tataAutoCarModelOption.equals("3")) {
-							carModel = "TATA Altroz";
-						} else {
-							System.out.println("You have chosen invalid option from TATA Automatic!");
-						}
-						break;
-
-					// case for KIA Automatic
-					case "3":
-						carBrand = "KIA";
-						System.out.println("---" + carBrand + " " + carTypeOption + " Car Models ---");
-						System.out.println("Which Model you want?");
-						System.out.println("Press 1 --> KIA Seltos, Press 2 --> KIA Sonet, Press 3 --> KIA Syros");
-						String kiaAutoCarModelOption = sc.next();
-						if (kiaAutoCarModelOption.equals("1")) {
-							carModel = "KIA Seltos";
-						} else if (kiaAutoCarModelOption.equals("2")) {
-							carModel = "KIA Sonet";
-						} else if (kiaAutoCarModelOption.equals("3")) {
-							carModel = "KIA Syros";
-						} else {
-							System.out.println("You have chosen invalid option from KIA Automatic!");
-						}
-						break;
-					default:
-						System.out.println("You did not selected any automatic gear system cars");
-					}
-				}
-				break;
-
-			// case for EV Cars for only automatic no manual gear
-			case "2":
-				fuelTypeOption = "EV";
-				carTypeOption = "Automatic Gear";
-				System.out.println("Which Brand do you want?");
-				System.out.println("Press 1 --> MAHINDRA, Press 2 --> TATA, Press 3 --> KIA");
-				carBrandOption = sc.next();
-				// case for normal manual brand
-				switch (carBrandOption) {
-				// case for HONDA
-				case "1":
-					carBrand = "MAHINDRA";
-					// carTypeOption="Automatic Gear";
-					System.out.println("---" + carBrand + " " + carTypeOption + " Car Models ---");
-					System.out.println("Which Model you want?");
-					System.out.println(
-							"Press 1 --> MAHINDRA BE 6, Press 2 --> MAHINDRA XEV 9e, Press 3 --> MAHINDRA XUV400");
-					String mahindraEVCarModelOption = sc.next();
-					if (mahindraEVCarModelOption.equals("1")) {
-						carModel = "MAHINDRA BE 6";
-					} else if (mahindraEVCarModelOption.equals("2")) {
-						carModel = "MAHINDRA XEV 9e";
-					} else if (mahindraEVCarModelOption.equals("3")) {
-						carModel = "MAHINDRA XUV400";
-					} else {
-						System.out.println("You have chosen invalid option from MAHINDRA EV!");
-					}
-					break;
-
-				// case for TATA
-				case "2":
-					carBrand = "TATA EV";
-					System.out.println("---" + carBrand + " " + carTypeOption + " Car Models ---");
-					System.out.println("Which Model you want?");
-					System.out
-							.println("Press 1 --> TATA Tiago EV, Press 2 --> TATA Nexon EV, Press 3 --> TATA Punch EV");
-					String tataCarModelOption = sc.next();
-					if (tataCarModelOption.equals("1")) {
-						carModel = "TATA Tiago EV";
-					} else if (tataCarModelOption.equals("2")) {
-						carModel = "TATA Nexon EV";
-					} else if (tataCarModelOption.equals("3")) {
-						carModel = "TATA Punch EV";
-					} else {
-						System.out.println("You have chosen invalid option from TATA EV!");
-					}
-					break;
-
-				// case for KIA
-				case "3":
-					carBrand = "KIA EV";
-					System.out.println("---" + carBrand + " " + carTypeOption + " Car Models ---");
-					System.out.println("Which Model you want?");
-					System.out.println("Press 1 --> KIA EV6, Press 2 --> KIA EV5, Press 3 --> KIA EV9");
-					String hyundaiCarModelOption = sc.next();
-					if (hyundaiCarModelOption.equals("1")) {
-						carModel = "KIA EV6";
-					} else if (hyundaiCarModelOption.equals("2")) {
-						carModel = "KIA EV5";
-					} else if (hyundaiCarModelOption.equals("3")) {
-						carModel = "KIA EV9";
-					} else {
-						System.out.println("You have chosen invalid option from KIA EV!");
-					}
-					break;
+					setFuelType("EV");
+					setVehicleSubType("Automatic Gear");
 				default:
-					System.out.println("You did not selected any EV cars");
-				}
-				break; // case ev car done
-
-			// not select both ev and normal cars
-			default:
-				System.out.println("You did not select any Option!");
+					System.out.println("Invalid Option selected..");
 			}
-		} else {
+		}
+		else {
 			System.out.println("Experience is less than 6 months! Sorry we wont provide car rentals!");
 		}
 	}
-
-	double hour = 0.0;
-	double totalDayRent;
-	double totalHourRent;
-
-	//calculate rental cost for car
-	public double calculateRentalCost() {
-
-		// if the user enters no of days >0 day rent
-		if (noOfDays > 0) {
-			System.out.println("No of Days: " + noOfDays);
-			if (fuelTypeOption.equals("Normal") && carTypeOption.equals("Manual Gear")) {
-				if (carBrand.equals("HONDA")) {
-					totalDayRent = noOfDays * 1000;
-				} else if (carBrand.equals("HYUNDAI")) {
-					totalDayRent = noOfDays * 2000;
+	public void handleBrandSelection(String fuelType, String carSubType) {
+		if (fuelType.equalsIgnoreCase("Petrol")) {
+			if (carSubType.equalsIgnoreCase("Manual Gear")) {
+				setFuelType(fuelType);
+				setVehicleSubType(carSubType);
+				System.out.println("Which Brand do you want?");
+				System.out.println("Press 1 --> HONDA, Press 2 --> HYUNDAI");
+				brandTypeOption = sc.next();
+				// case for normal manual brand
+				switch (brandTypeOption) {
+					// case for HONDA
+					case "1":
+						setVehicleBrand("HONDA");
+						chooseVehicleModel(getVehicleBrand(), new String[]{"Amaze", "City", "Civic"});
+						break;
+					case "2":
+						setVehicleBrand("HYUNDAI");
+						chooseVehicleModel(getVehicleBrand(), new String[]{"i20", "i10", "Creta"});
+						break;
+					case "3":
+						setVehicleBrand("");
+					default:
+						System.out.println("You did not selected any " + getVehicleType() + " under " + getVehicleSubType());
 				}
-			} else if (fuelTypeOption.equals("Normal") && carTypeOption.equals("Automatic Gear")) {
-				if (carBrand.equals("MARUTI")) {
-					totalDayRent = noOfDays * 2500;
-				} else if (carBrand.equals("TATA")) {
-					totalDayRent = noOfDays * 2700;
-				} else if (carBrand.equals("KIA")) {
-					totalDayRent = noOfDays * 3000;
+			} else if (getVehicleSubType().equalsIgnoreCase("Automatic Gear")) {
+				System.out.println("Which Brand do you want?");
+				System.out.println("Press 1 --> MARUTI, Press 2 --> TATA, Press 3 --> KIA");
+				brandTypeOption = sc.next();
+				// case for normal manual brand
+				switch (brandTypeOption) {
+					// case for MARUTI Automatic
+					case "1":
+						setVehicleBrand("MARUTI");
+						chooseVehicleModel(getVehicleBrand(), new String[]{"Baleno", "Celerio", "Dzire"});
+						break;
+					case "2":
+						setVehicleBrand("TATA");
+						chooseVehicleModel(getVehicleBrand(), new String[]{"Curvv", "Harrier", "Altroz"});
+						break;
+					case "3":
+						setVehicleBrand("KIA");
+						chooseVehicleModel(getVehicleBrand(), new String[]{"Seltos", "Sonet", "Syros"});
+						break;
+					default:
+						System.out.println("You did not selected any " + getVehicleType() + " under " + getVehicleSubType());
+
 				}
-			} else if (fuelTypeOption.equals("EV")) {
-				if (carBrand.equals("MAHINDRA")) {
-					totalDayRent = noOfDays * 600;
-				} else if (carBrand.equals("TATA EV")) {
-					totalDayRent = noOfDays * 800;
-				} else if (carBrand.equals("KIA EV")) {
-					totalDayRent = noOfDays * 1000;
-				}
+			} else {
+				System.out.println("You did not select any" + getVehicleType() + " under " + getFuelType());
 			}
-			return totalDayRent;
 		}
+		else if (fuelType.equalsIgnoreCase("EV")) {
+			setFuelType(fuelType);
+			setVehicleSubType(carSubType);
+			System.out.println("Which Brand do you want?");
+			System.out.println("Press 1 --> MARUTI, Press 2 --> TATA, Press 3 --> KIA");
+			brandTypeOption = sc.next();
+			// case for normal manual brand
+			switch (brandTypeOption) {
+				case "1":
+					setVehicleBrand("MAHINDRA");
+					chooseVehicleModel(getVehicleBrand(), new String[]{"BE 6", "XEV 9E", "XUV400"});
+					break;
+				case "2":
+					setVehicleBrand("TATA");
+					chooseVehicleModel(getVehicleBrand(), new String[]{"Tiago EV", "Nexon EV", "Punch EV"});
+					break;
+				case "3":
+					setVehicleBrand("KIA");
+					chooseVehicleModel(getVehicleBrand(), new String[]{"EV6", "EV5", "EV9"});
+					break;
 
-		// hourly rent
-		else {
-			System.out.println("Enter the no of hours: ");
-			hour = sc.nextDouble();
-			if (fuelTypeOption.equals("Normal") && carTypeOption.equals("Manual Gear")) {
-				if (carBrand.equals("HONDA")) {
-					totalHourRent = hour * 300;
-				}
-				else if (carBrand.equals("HYUNDAI")) {
-					totalHourRent = hour * 600;
-				}
-			} 
-			else if (fuelTypeOption.equals("Normal") && carTypeOption.equals("Automatic Gear")) {
-				if (carBrand.equals("MARUTI")) {
-					totalHourRent = hour * 400;
-				} else if (carBrand.equals("TATA")) {
-					totalHourRent = hour * 500;
-				} else if (carBrand.equals("KIA")) {
-					totalHourRent = hour * 700;
-				}
-			} 
-			else if (fuelTypeOption.equals("EV")) {
-				if (carBrand.equals("MAHINDRA")) {
-					totalHourRent = hour * 200;
-				} else if (carBrand.equals("TATA EV")) {
-					totalHourRent = hour * 300;
-				} else if (carBrand.equals("KIA EV")) {
-					totalHourRent = hour * 400;
-				}
+				default:
+					System.out.println("You did not select any" + getVehicleType() + " under " + getFuelType());
 			}
-			return totalHourRent;
+		}
+		else {
+			System.out.println("Invalid option - You entered wrong option under" + getVehicleType());
 		}
 	}
 
-	
-	
-	//printing receipt for car
-	public void printReceipt() {
-		System.out.println("-------------Welcome to " + rentalName + "----------------");
-		System.out.println("Customer Name: " + customer.getCustomerName());
-		System.out.println("ID Proof: " + customer.getIdproof());
-		System.out.println("Age: " + customer.getAge());
-		System.out.println("Contact Number: " + customer.getContactNo());
-		System.out.println("License Available: " + customer.getLicenseAvl());
-		System.out.println("License Available Type: " + customer.getLicenseavlType());
-		System.out.println("Rent Vehicle: " + vehicleType);
-		System.out.println("Fuel Type: " + fuelTypeOption);
-		System.out.println("Car Type: " + this.carTypeOption);
-		System.out.println("Car Brand: " + carBrand);
-		System.out.println("Car Model: " + carModel);
-		if (noOfDays > 0) {
-			System.out.println("No Of Days: " + noOfDays);
-			System.out.println("Rental Cost= " + totalDayRent);
-		} else {
-			System.out.println("Hours Taken: " + hour);
-			System.out.println("Rental Cost= " + totalHourRent);
+
+	public void chooseVehicleModel(String brandName, String brandModels[]) {
+		System.out.println("--- " + brandName + " " + getVehicleSubType() + " Models ---");
+		System.out.println("Select the Model from " + brandName);
+		for (int i = 0; i < brandModels.length; i++) {
+			System.out.println("Press " + (i + 1) + "-->" + brandName + " " + brandModels[i]);
 		}
-		System.out.println("==========================================");
-		System.out.println("THANK YOU! VISIT AGAIN!");
+		int modelOption = sc.nextInt();
+		try {
+			if (modelOption >= 1 && modelOption <= brandModels.length) {
+				setVehicleModel(brandName + " " + brandModels[modelOption - 1]);
+			} else {
+				System.out.println("Invalid model option for" + brandName);
+			}
+		} catch (NumberFormatException n) {
+			System.out.println("Please enter a valid Number");
+		}
+	}
+
+
+
+	//calculate rental cost for car
+	public double calculateRentalCost() {
+		double dayRent = getDayRent(), hourRent = getHourRent();
+		Map<String, Integer> dayRates = new HashMap<>();
+		Map<String, Integer> hourRates = new HashMap<>();
+
+		dayRates.put("Petrol-Manual Gear-HONDA", 1000);
+		dayRates.put("Petrol-Manual Gear-HYUNDAI", 2000);
+		dayRates.put("Petrol-Automatic Gear-MARUTI", 2500);
+		dayRates.put("Petrol-Automatic Gear-TATA", 2700);
+		dayRates.put("Petrol-Automatic Gear-KIA", 3000);
+		dayRates.put("Petrol-EV-MARUTI", 600);
+		dayRates.put("Petrol-EV-TATA", 800);
+		dayRates.put("Petrol-EV-KIA", 1000);
+
+		hourRates.put("Petrol-Manual Gear-HONDA", 300);
+		hourRates.put("Petrol-Manual Gear-HYUNDAI", 600);
+		hourRates.put("Petrol-Automatic Gear-MARUTI", 450);
+		hourRates.put("Petrol-Automatic Gear-TATA", 400);
+		hourRates.put("Petrol-Automatic Gear-KIA", 500);
+		hourRates.put("Petrol-EV-MARUTI", 200);
+		hourRates.put("Petrol-EV-TATA", 300);
+		hourRates.put("Petrol-EV-KIA", 400);
+
+		String key = getFuelType().trim() + "-" + getVehicleSubType().trim() + "-" + getVehicleBrand().trim().toUpperCase();
+
+		if (customer.getNoOfDays() > 0) {
+			if (dayRates.containsKey(key)) {
+				dayRent = customer.getNoOfDays() * dayRates.get(key);
+				return dayRent;
+			} else {
+				System.out.println("No daily day rent available for selected vehicle");
+				return 0.0;
+			}
+		}
+		else {
+			if (hourRates.containsKey(key)) {
+				hourRent = customer.getNoOfHours() * hourRates.get(key);
+				return hourRent;
+			} else {
+				System.out.println("No hourly rent available for selected vehicle");
+				return 0.0;
+			}
+		}
 	}
 }
