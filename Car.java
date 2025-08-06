@@ -9,12 +9,12 @@ public class Car extends Vehicle {
 	String fuelTypeOption = "";
 	Vehicle vehicle;
 
-	String[] carBrands = { "HONDA", "HYUNDAI", // normal manual
+	String[] carBrandList = { "HONDA", "HYUNDAI", // normal manual
 			"MARUTI", "TATA", "KIA", // normal automatic
 			"MAHINDRA", "TATA EV", "KIA EV" // EV automatic
 	};
 
-	String[][] carModels = { { "HONDA Amaze", "HONDA City", "HONDA Civic" }, { "HYUNDAI i10", "HYUNDAI i20", "HYUNDAI Creta" },
+	String[][] carModelList = { { "HONDA Amaze", "HONDA City", "HONDA Civic" }, { "HYUNDAI i10", "HYUNDAI i20", "HYUNDAI Creta" },
 			{ "MARUTI Baleno", "MARUTI Celerio", "MARUTI Dzire" }, { "TATA Curvv", "TATA Harrier", "TATA Altroz" },
 			{ "KIA Seltos", "KIA Sonet", "KIA Syros" }, { "MAHINDRA BE 6", "MAHINDRA XEV 9e", "MAHINDRA XUV400" },
 			{ "TATA Tiago EV", "TATA Nexon EV", "TATA Punch EV" }, { "KIA EV6", "KIA EV5", "KIA EV9 " } };
@@ -43,44 +43,24 @@ public class Car extends Vehicle {
 		super(vehicleType, carBrand, carModel);
 	}
 
-	Scanner sc = new Scanner(System.in);
-	String carTypeOption = "";
-	String carBrandOption = "";
-	String carModelOption = "";
-
-	// getting all car brands
-	public String[] getCarBrandList() {
-		return carBrands;
-	}
-
-	// getting all car models
-	public String[][] getCarModelList() {
-		return carModels;
-	}
-	
-	//getting all car brands
 	public List<String> showCarBrandsList() {
 		System.out.println("---Available " + getVehicleType() + " Brands---");
-		// display the truck brand
-		String[] carBrandsList = getCarBrandList();
-		List<String> carBrands= Arrays.asList(carBrandsList);
-		for (int i = 0; i < carBrands.size(); i++) {
-			System.out.print(carBrands.get(i));
-			if (i < carBrandsList.length - 1) {
+		String[] carBrands=carBrandList;
+		List<String> carBrandsList= Arrays.asList(carBrands);
+		for (int i = 0; i < carBrandsList.size(); i++) {
+			System.out.print(carBrandsList.get(i));
+			if (i < carBrands.length - 1) {
 				System.out.print(", ");
 			}
 		}
-		return carBrands;
+		return carBrandsList;
 	}
-	
-	//getting all models of selected car brand
-	public List<String> showCarModelsList(String carBrandAvl) {
-		String[][] carModelList = carModels; //getting all models
-		String[] carBrandsList = carBrands; //getting all brands
+
+	public List<String> showCarModelsList(String carBrand) {
 		List<String> models=new ArrayList<>();
-		for (int i = 0; i < carBrandsList.length; i++) {
-			if (carBrandsList[i].equalsIgnoreCase(carBrandAvl)) { //our model and display name are same or not
-				System.out.println("--- Available Models for " + carBrandAvl + " ---");
+		for (int i = 0; i < carBrandList.length; i++) {
+			if (carBrandList[i].equalsIgnoreCase(carBrand)) { //our model and display name are same or not
+				System.out.println("--- Available Models for " + carBrand + " ---");
 				for (int j = 0; j < carModelList[i].length; j++) {
 					System.out.print(carModelList[i][j]);
 					if (j < carModelList[i].length - 1) {
@@ -95,30 +75,12 @@ public class Car extends Vehicle {
 		return models;
 	}
 
-	public boolean brandCase(List<String> brands, String carBrand){
-		for(String brand:brands){
-			if(brand.equalsIgnoreCase(carBrand)){
-				return true;
-			}
-		}
-		return false;
-	}
-	public boolean modelCase(List<String> models, String model){
-		for(String carModel:models){
-			if(carModel.equalsIgnoreCase(model)){
-				return true;
-			}
-		}
-		return false;
-	}
-
-	// check availability for car
 	public List<String> getRentVehicleDetails(String vehicleType){
 		List<String> carBrands=showCarBrandsList();
 		System.out.println();
 		System.out.println("Enter the Brand Name:");
 		String carBrand = sc.nextLine();
-		while(!brandCase(carBrands,carBrand)){
+		while(!brandExists(carBrands,carBrand)){
 			System.out.println("Brand Not Found!");
 			System.out.println("Re-enter the Brand Name Again");
 			carBrand=sc.nextLine();
@@ -133,7 +95,7 @@ public class Car extends Vehicle {
 		List<String> carModels=showCarModelsList(carBrand);
 		System.out.println("\nEnter Model Name: ");
 		String carModel = sc.nextLine();
-		while(!modelCase(carModels,carModel)){
+		while(!modelExists(carModels,carModel)){
 			System.out.println("Model Not found");
 			System.out.println("Re-enter the model again");
 			carModel=sc.nextLine();
@@ -149,17 +111,17 @@ public class Car extends Vehicle {
 		details.add(carModel.trim());
 		return details;
 	}
-	// check availability for bike
-	public void checkAvailability(String vehicleType, String carBrand, String carModel) {
-		for (int i = 0; i < carBrands.length; i++) {
-			if (carBrands[i].equalsIgnoreCase(carBrand)) {// checking out brand and this.brand is matching
-				for (int j = 0; j < carModels[i].length; j++) {
-					if (carModels[i][j].equalsIgnoreCase(carModel)) {
+	public void checkAvailability(String vehicleType, String vehicleBrand, String vehicleModel) {
+		for (int i = 0; i < carBrandList.length; i++) {
+			if (carBrandList[i].equalsIgnoreCase(vehicleBrand)) {// checking out brand and this.brand is matching
+				for (int j = 0; j < carModelList[i].length; j++) {
+					if (carModelList[i][j].equalsIgnoreCase(vehicleModel)) {
+
 						if (!isRented[i][j]) { // if it matches with model name & it checks for available
-							System.out.println(carModel+" is available..");
+							System.out.println(vehicleModel+" is available..");
 							return;
 						} else {
-							System.out.println(carModel+ " is already rented!..");
+							System.out.println(vehicleModel+ " is already rented!..");
 							System.out.println("Do you want to see other vehicles?");
 							String choice=sc.next();
 							sc.nextLine();
@@ -169,7 +131,6 @@ public class Car extends Vehicle {
 								String newModel=details.get(1);
 								checkAvailability(vehicleType,newBrand,newModel);
 							}
-
 							else
 								System.out.println("Thank You!");
 						}
@@ -178,6 +139,7 @@ public class Car extends Vehicle {
 			}
 		}
 	}
+
 
 	// rent for car
 	public void rentVehicleType() {
@@ -300,30 +262,8 @@ public class Car extends Vehicle {
 		}
 	}
 
-
-	public void chooseVehicleModel(String brandName, String brandModels[]) {
-		System.out.println("--- " + brandName + " " + getVehicleSubType() + " Models ---");
-		System.out.println("Select the Model from " + brandName);
-		for (int i = 0; i < brandModels.length; i++) {
-			System.out.println("Press " + (i + 1) + "-->" + brandName + " " + brandModels[i]);
-		}
-		int modelOption = sc.nextInt();
-		try {
-			if (modelOption >= 1 && modelOption <= brandModels.length) {
-				setVehicleModel(brandName + " " + brandModels[modelOption - 1]);
-			} else {
-				System.out.println("Invalid model option for" + brandName);
-			}
-		} catch (NumberFormatException n) {
-			System.out.println("Please enter a valid Number");
-		}
-	}
-
-
-
 	//calculate rental cost for car
 	public double calculateRentalCost() {
-		double dayRent = getDayRent(), hourRent = getHourRent();
 		Map<String, Integer> dayRates = new HashMap<>();
 		Map<String, Integer> hourRates = new HashMap<>();
 
@@ -344,26 +284,6 @@ public class Car extends Vehicle {
 		hourRates.put("Petrol-EV-MARUTI", 200);
 		hourRates.put("Petrol-EV-TATA", 300);
 		hourRates.put("Petrol-EV-KIA", 400);
-
-		String key = getFuelType().trim() + "-" + getVehicleSubType().trim() + "-" + getVehicleBrand().trim().toUpperCase();
-
-		if (customer.getNoOfDays() > 0) {
-			if (dayRates.containsKey(key)) {
-				dayRent = customer.getNoOfDays() * dayRates.get(key);
-				return dayRent;
-			} else {
-				System.out.println("No daily day rent available for selected vehicle");
-				return 0.0;
-			}
-		}
-		else {
-			if (hourRates.containsKey(key)) {
-				hourRent = customer.getNoOfHours() * hourRates.get(key);
-				return hourRent;
-			} else {
-				System.out.println("No hourly rent available for selected vehicle");
-				return 0.0;
-			}
-		}
+		return calculateKeyRent(dayRates, hourRates);
 	}
 }
