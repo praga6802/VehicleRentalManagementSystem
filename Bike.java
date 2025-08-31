@@ -348,7 +348,6 @@ public class Bike extends Vehicle {
 		dayRates.put("EV-Gear Bike-MATTER", 300);
 		dayRates.put("EV-Gear Bike-REVOLT", 270);
 		dayRates.put("EV-Gear Bike-OBEN", 240);
-
 		hourRates.put("Petrol-Scooter-SUZUKI", 50);
 		hourRates.put("Petrol-Scooter-TVS", 50);
 		hourRates.put("Petrol-Scooter-HONDA", 60);
