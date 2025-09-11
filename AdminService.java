@@ -7,8 +7,8 @@ public class AdminService {
     Admin admin=null;
     Vehicle vehicle=null;
 
-
     private List<Vehicle> vehicles= new ArrayList<>();
+
     public void addVehicle(){
         System.out.println("Enter the vehicle Type(car/bike/truck):");
         String type=sc.nextLine().trim().toLowerCase();
@@ -38,7 +38,6 @@ public class AdminService {
             sc.nextLine();
             fuelPriceMap.put(fuelType,new FuelPricing(dailyRate,hourlyRate));
         }
-
         switch(type){
             case "bike":
                 System.out.println("Enter the Bike Type: ");
@@ -170,8 +169,6 @@ public class AdminService {
         }
 
     }
-
-
 
     public void showAllVehicles(){
         System.out.println("Enter the Vehicle Type(Car/Bike/Truck):");

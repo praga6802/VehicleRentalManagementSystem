@@ -26,6 +26,10 @@ public abstract class Vehicle implements RentalRules {
 	String dateFormat=date.format(formatter);
 	protected FuelPricing price;
 
+
+
+
+
 	private boolean isRented;
 
 
