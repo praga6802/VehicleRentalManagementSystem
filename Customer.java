@@ -1,12 +1,12 @@
 package rental;
 
-import java.util.InputMismatchException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
-import static rental.RentalRules.MAX_NO_OF_DAYS;
 
 public class Customer {
-	static Scanner sc = new Scanner(System.in);
+	Scanner sc = new Scanner(System.in);
 	private String idProof, customerName, contactNo, licenseAvl, licenseAvlType, rentVehicleType;
 	private int age;
 	private double noOfDays;
@@ -96,104 +96,36 @@ public class Customer {
 		this.noOfDays = noOfDays;
 		this.noOfHours = noOfHours;
 	}
+	public Customer(){
 
-	public static Customer registerDetails() {
-		System.out.println("Enter Customer details...");
-		System.out.println("Enter Customer Name: ");
-		String customer_name = sc.nextLine();
-		int age=0;
-		while(true) {
-			try {
-				System.out.println("Enter Age: ");
-				age = sc.nextInt();
-				sc.nextLine();
-				if (age < 18) {
-					System.out.println("Your are below age 18.. We are not provide for rentals..");
-					continue;
-				}
-				break;
-			}
-			catch (InputMismatchException e){
-				System.out.println("Invalid Input..Please enter a valid age");
-				sc.nextLine();
-			}
-		}
-		System.out.println("Do you have License(Yes/No)?");
-		String licenseAvl = sc.next();
-		String licenseAvlType = "";
-		if (licenseAvl.equalsIgnoreCase("yes")) {
-			System.out.println("Enter the license of Vehicle Type(Car/Bike/Truck)");
-			licenseAvlType = sc.next();
-		} else {
-			System.out.println("Without Driving License.. We would not provide vehicles for rentals");
-		}
-		String rentVehicleType = "";
-		String vehicleChoice = "";
-		String idProofChoice = "";
-		String idProofType = "";
-		if (licenseAvlType.equalsIgnoreCase("Bike")) {
-			System.out.println("You're eligible only for Bike rentals.");
-			rentVehicleType = "Bike";
-		} else if (licenseAvlType.equalsIgnoreCase("Car")) {
-
-			System.out.println("Available Vehicle Types:\n1. Bike\n2. Car");
-			System.out.print("Press the Option Number:");
-			vehicleChoice = sc.next();
-			rentVehicleType = vehicleChoice.equals("1") ? "Bike" : vehicleChoice.equals("2") ? "Car" : "";
-		} else if (licenseAvlType.equalsIgnoreCase("Truck")) {
-
-			System.out.println("Available Vehicle Types:\n1. Bike\n2. Car\n3. Truck");
-			System.out.print("Press the Option Number:");
-			vehicleChoice = sc.next();
-			rentVehicleType = vehicleChoice.equals("1") ? "Bike" : vehicleChoice.equals("2") ? "Car" : "Truck";
-		}
+	}
 
 
-		System.out.println("ID Proof acceptable for renting \n Press 1. Aadhar, Press 2. Voter ID");
-		idProofChoice = sc.next();
-		idProofType = idProofChoice.equals("1") ? "Aadhar" : "Voter ID";
-		String contactNo = "";
+	public void customerMenu(){
+		List<String> customerMenu= Arrays.asList("Check Availability", "Rent vehicle", "Exit");
+
 		while (true) {
+			for(int i=0;i<customerMenu.size();i++){
+				System.out.println("Press "+(i+1)+"-> "+customerMenu.get(i));
+			}
+			System.out.println("Enter the Choice: ");
+			int choice = sc.nextInt();
+			sc.nextLine();
+			CustomerService cs = new CustomerService();
 			try {
-				System.out.println("Enter 10-digit Contact Number: ");
-				contactNo = sc.next();
-				if (contactNo.length() != 10 || !contactNo.matches("\\d{10}")) {
-					System.out.println("Please provide 10 digit mobile number..");
-					continue;
+				if(choice==1) cs.checkAvailability();
+				else if(choice==2) cs.rentVehicle();
+
+				else if(choice==3){
+					System.out.println("Chosen exit option");
+					System.out.println("Thank you for the presence");
+					break;
 				}
-				System.out.println("Contact Number: " + contactNo);
-				break;
-			} catch (InputMismatchException | NumberFormatException e) {
-				System.out.println("Invalid Input.. Please try again..");
+				else System.out.println("Invalid choice entered..please enter the correct choice");
+			}
+			catch (NumberFormatException n){
+				System.out.println("Invalid Input, Please Enter a Number");
 			}
 		}
-		int durationChoice = 0;
-		double noOfDays = 0.0, noOfHours = 0.0;
-		String duration = "";
-		while (true) {
-			try {
-				System.out.println("Enter the Press 1->days, Press 2->hours");
-				durationChoice = sc.nextInt();
-				duration = String.valueOf(durationChoice);
-			} catch (InputMismatchException e) {
-				System.out.println("Invalid Input..");
-			}
-			if (duration.equalsIgnoreCase("1")) {
-				System.out.println("Enter the No of Days:");
-				noOfDays = sc.nextDouble();
-				sc.nextLine();
-				if (noOfDays > MAX_NO_OF_DAYS) {
-					System.out.println("We are not provide more than 10 days...");
-				}
-			} else if (duration.equalsIgnoreCase("2")) {
-				System.out.println("Enter the no of Hours:");
-				noOfHours = sc.nextDouble();
-				sc.nextLine();
-			} else {
-				System.out.println("Invalid Option..");
-				continue;
-			}
-			return new Customer(idProofType, customer_name, contactNo, age, noOfDays, noOfHours, licenseAvl, licenseAvlType, rentVehicleType);
-		}
-}
+	}
 }
