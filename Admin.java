@@ -16,6 +16,7 @@ public class Admin {
 
 
     public void adminMenu() {
+        List<String> menu=Arrays
         while (true){
             System.out.println("Press 1 -> Add Vehicle");
             System.out.println("Press 2 - > Remove Vehicle");
