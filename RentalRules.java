@@ -7,12 +7,9 @@ public interface RentalRules {
 
 	double calculateRentalCost();
 
-	void checkAvailability(String vehicleType, String vehicleBrand, String vehicleModel);
+	void checkAvailability(String vehicleType,String brand, String model);
 
 	void printReceipt();
 
 	void rentVehicleType();
-
-
-
 }

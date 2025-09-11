@@ -9,6 +9,7 @@ import java.util.*;
 public abstract class Vehicle implements RentalRules {
 
 	Scanner sc= new Scanner(System.in);
+	private String vehicleID;
 	private String vehicleType;
 	private String vehicleSubType;
 	private String vehicleBrand;
@@ -23,10 +24,17 @@ public abstract class Vehicle implements RentalRules {
 	LocalDateTime date= LocalDateTime.now();
 	DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd-MM-yy hh:mm:ss a");
 	String dateFormat=date.format(formatter);
+	protected FuelPricing price;
 
 
+
+
+
+	private boolean isRented;
+
+
+	// ----- constructors
 	public Vehicle(String vehicleType, Customer customer) {
-
 		this.vehicleType = vehicleType;
 		//this.customer=customer;
 		this.customer = new Customer(customer.getIdProof(), customer.getCustomerName(), customer.getContactNo(),customer.getAge(), customer.getNoOfDays(),customer.getNoOfHours(), customer.getLicenseAvl(), customer.getLicenseAvlType(),customer.getRentVehicleType());
@@ -37,59 +45,30 @@ public abstract class Vehicle implements RentalRules {
 		this.vehicleModel = vehicleModel;
 	}
 
-	public Vehicle(String vehicleType){
-		this.vehicleType=vehicleType;
+	// for adding bike class
+	public Vehicle(String vehicleID, String vehicleBrand, String vehicleSubType, String vehicleModel,FuelPricing price, boolean isRented){
+		this.vehicleBrand=vehicleBrand;
+		this.vehicleID=vehicleID;
+		this.vehicleModel=vehicleModel;
+		this.vehicleSubType=vehicleSubType;
+		this.price=price;
+		this.isRented=isRented;
 	}
-
-	public void setVehicleModel(String vehicleModel) {
-		this.vehicleModel = vehicleModel;
-	}
-
-	public double getHourRent() {
-		return hourRent;
-	}
-
-	public void setHourRent(double hourRent) {
-		this.hourRent = hourRent;
-	}
-
-	public double getDayRent() {
-		return dayRent;
-	}
-
-	public void setDayRent(double dayRent) {
-		dayRent = dayRent;
+	public String toString(){
+		return "Brand:"+vehicleBrand+", Model: "+vehicleModel+", Day Rent:"+getDayRent()+", Hour rent: "+getHourRent();
 	}
 
 
-	public String getVehicleSubType() {
-		return vehicleSubType;
+	// for adding truck class
+	public Vehicle(String id, String brand, String model, FuelPricing price, boolean isRented){
+		this.vehicleBrand=brand;
+		this.vehicleModel=model;
+		this.vehicleID=id;
+		this.price=price;
+		this.isRented=isRented;
 	}
 
-	public void setVehicleSubType(String vehicleSubType) {
-		this.vehicleSubType = vehicleSubType;
-	}
-
-
-	public void setVehicleType(String vehicleType) {
-		this.vehicleType = vehicleType;
-	}
-	public void setFuelType(String fuelType) {
-		this.fuelType = fuelType;
-	}
-	public void setVehicleBrand(String vehicleBrand) {
-		this.vehicleBrand = vehicleBrand;
-	}
-	public void setvehicleModel(String vehicleModel) {
-		this.vehicleModel = vehicleModel;
-	}
-	public void setVehicleBrandList(String[] vehicleBrandList) {
-		this.vehicleBrandList = vehicleBrandList;
-	}
-	public void setVehicleModelList(String[][] vehicleModelList) {
-		this.vehicleModelList = vehicleModelList;
-	}
-
+	//
 	// getters
 	public String getVehicleType() {
 		return vehicleType;
@@ -109,6 +88,74 @@ public abstract class Vehicle implements RentalRules {
 	public String[][] getVehicleModelList() {
 		return vehicleModelList;
 	}
+	public FuelPricing getPrice() {
+		return price;
+	}
+	public String getVehicleID() {
+		return vehicleID;
+	}
+
+	public String getVehicleSubType() {
+		return vehicleSubType;
+	}
+
+
+	public double getHourRent() {
+		return price.getHourlyRate();
+	}
+
+	public double getDayRent() {
+		return price.getDailyRate();
+	}
+	public boolean isRented() {
+		return isRented;
+	}
+	// setters
+
+	public void setVehicleID(String vehicleID) {
+		this.vehicleID = vehicleID;
+	}
+	public Vehicle(String vehicleType){
+		this.vehicleType=vehicleType;
+	}
+	public void setVehicleModel(String vehicleModel) {
+		this.vehicleModel = vehicleModel;
+	}
+	public void setHourRent(double hourRent) {
+		this.hourRent = hourRent;
+	}
+	public void setDayRent(double dayRent) {
+		dayRent = dayRent;
+	}
+	public void setVehicleSubType(String vehicleSubType) {
+		this.vehicleSubType = vehicleSubType;
+	}
+	public void setVehicleType(String vehicleType) {
+		this.vehicleType = vehicleType;
+	}
+	public void setFuelType(String fuelType) {
+		this.fuelType = fuelType;
+	}
+	public void setVehicleBrand(String vehicleBrand) {
+		this.vehicleBrand = vehicleBrand;
+	}
+	public void setvehicleModel(String vehicleModel) {
+		this.vehicleModel = vehicleModel;
+	}
+	public void setVehicleBrandList(String[] vehicleBrandList) {
+		this.vehicleBrandList = vehicleBrandList;
+	}
+	public void setVehicleModelList(String[][] vehicleModelList) {
+		this.vehicleModelList = vehicleModelList;
+	}
+	public void setRented(boolean rented) {
+		isRented = rented;
+	}
+
+	public void setPrice(FuelPricing price) {
+		this.price = price;
+	}
+	// -------------------------------- methods-------------------------------------
 
 	public void receiptVerification(){
 		System.out.println("Do you want to your receipt?(Yes/No)");
@@ -156,27 +203,25 @@ public abstract class Vehicle implements RentalRules {
 		}
 	}
 
+
+	//call from bike or car or truck
 	public double calculateKeyRent(Map<String, Integer> dayRates, Map<String,Integer> hourRate){
 		double rent=0.0;
-		String key = getFuelType().trim() + "-" + getVehicleSubType().trim() + "-" + getVehicleBrand().trim().toUpperCase();
-
+		String key = getFuelType().trim().toUpperCase() + "-" + getVehicleSubType().trim().toUpperCase()+ "-" + getVehicleBrand().trim().toUpperCase();
 		if (customer.getNoOfDays() > 0) {
 			if (dayRates.containsKey(key)) {
 				rent = customer.getNoOfDays() * dayRates.get(key);
-				return rent;
 			} else {
 				System.out.println("No daily day rent available for selected vehicle");
-				return 0.0;
 			}
 		} else {
 			if (hourRate.containsKey(key)) {
 				rent = customer.getNoOfHours() * hourRate.get(key);
-				return rent;
 			} else {
 				System.out.println("No hourly rent available for selected vehicle");
-				return 0.0;
 			}
 		}
+		return rent;
 	}
 
 
@@ -192,7 +237,7 @@ public abstract class Vehicle implements RentalRules {
 		System.out.println("Age: " + customer.getAge());
 		System.out.println("Contact Number: " + customer.getContactNo());
 		System.out.println("License Available Type: " + customer.getLicenseAvlType());
-		System.out.println("Rent Vehicle: " + getVehicleType());
+		System.out.println("Rent Vehicle: " + customer.getRentVehicleType());
 		System.out.println("Fuel Type: " + getFuelType());
 		System.out.println("Vehicle Type: " + getVehicleSubType());
 		System.out.println("Vehicle Brand: " + getVehicleBrand());
@@ -203,9 +248,9 @@ public abstract class Vehicle implements RentalRules {
 		} else {
 			System.out.println("Hours Taken: " + customer.getNoOfHours());
 		}
+
 		System.out.println("Rental Cost= " + rentalCost);
 		System.out.println("==========================================");
 		System.out.println("THANK YOU! VISIT AGAIN!");
-		sc.close();
 	}
 }
