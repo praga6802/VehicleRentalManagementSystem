@@ -3,6 +3,8 @@ package rental;
 import javax.management.MBeanRegistration;
 import java.util.*;
 
+
+//hi
 public class Admin {
     Scanner sc= new Scanner(System.in);
     private final String userName="Praga";
